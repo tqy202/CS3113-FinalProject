@@ -35,21 +35,14 @@ void ClassDemoApp::Setup() {
 	bool done = false;
 	textures.push_back(LoadTexture("pixel_font.png"));
 	textures.push_back(LoadTexture("sprites.png"));
-	int state = 0;
-	score = 0;
-	damage = 0;
+	int state = STATE_GAME;
 	timesincelastfire = 0.0f;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	float initialYPosition = 0.7f;
 }
 ClassDemoApp::~ClassDemoApp() {
-	//delete player;
-	//for (GLuint i = 0; i < playerBullets.size(); i++) { delete playerBullets[i]; }
-	for (Entity* ent : players) { delete ent; }
-	for (Entity* ent : entities) { delete ent; }
-	for(Entity* ent : bullets) { delete ent; }
-	for(GLuint* tex : textures) { delete tex; }
+	clear();
 	SDL_Quit();
 }
 void ClassDemoApp::DrawText(int fontTexture, std::string text, float size, float spacing) {
@@ -199,6 +192,18 @@ bool ClassDemoApp::UpdateAndRender() {
 	return done;
 }
 
+
+//private functions
+void ClassDemoApp::clear(){
+	for (Entity* ent : players) { delete ent; }
+	players.clear();
+	for (Entity* ent : entities) { delete ent; }
+	entities.clear();
+	for (Entity* ent : bullets) { delete ent; }
+	bullets.clear();
+	for (GLuint* tex : textures) { delete tex; }
+	textures.clear();
+}
 void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.69f, 0.7f, 0.0);

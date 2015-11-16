@@ -38,8 +38,6 @@ private:
 	
 	bool done;
 	int state;
-	int score;
-	int damage;
 	//bool amAlive;
 	//Entity* player;
 	float timesincelastfire;
@@ -47,6 +45,8 @@ private:
 	std::list<Entity*> entities;
 	std::list<Entity*> bullets;
 	std::vector<GLuint*> textures;
+
+	void clear();
 	void RenderMenu();
 	void RenderGame();
 	void win();
