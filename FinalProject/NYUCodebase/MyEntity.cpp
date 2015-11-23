@@ -12,6 +12,14 @@ xpos(x), ypos(y), width(wid), height(hei), sprite(tex), angle(ang), velocity(vel
 	modelMatrix.identity();
 	modelMatrix.Translate(xpos, ypos, 0);
 }
+
+void Entity::collisionDetection(Entity* anEntity){
+	// Assume the player entity is on the left side of the screen and will continue to stay there for the duration of the game. We can always change the position of the player and therefore this code sometime later.
+	if (!(this->x()+ this->width / 2 < anEntity->x() - anEntity->width/ 2 || this->x() - this->width / 2 > anEntity->x() + anEntity->width / 2 || this->y() + this->height/ 2 < anEntity->y() - anEntity->height/ 2 || this->y() - this->height / 2 > anEntity->y() + anEntity->height/ 2)){
+		this->collided();
+	}
+}
+
 void Entity::Render(ShaderProgram *program){
 	float vertex[] = { xpos - (.5 * width), ypos + (.5 * height),
 		xpos - (.5 * width), ypos - (.5 * height),
@@ -50,6 +58,10 @@ void Entity::move(float newX, float newY){
 	modelMatrix.identity();
 	modelMatrix.Translate(xpos, ypos, 0);
 }
+void Entity::collided(){
+	isCollided = true;
+}
+
 void Entity::x(float distance, bool isNewCoord){
 	if (isNewCoord)
 		move(distance, ypos);
