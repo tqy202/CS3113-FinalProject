@@ -26,16 +26,14 @@ public:
 	void move(float newX, float newY);
 	void x(float distance, bool isNewCoord = false);
 	void y(float distance, bool isNewCoord = false);
-	void collided();
 
 	SheetSprite* sprite;
 	float width;
-	float height;
+	float height; 
 	float angle;
 	float velocity;
 private:
 	Matrix modelMatrix;
 	float xpos;
 	float ypos;
-	bool isCollided;
 };
