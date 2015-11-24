@@ -40,11 +40,16 @@ void ClassDemoApp::Setup() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	float initialYPosition = 0.7f;
+
+	players.push_back(new Entity(-0.25,-0.25,1,1,nullptr));
+	players.push_back(new Entity(0.25, 0.25, 1, 1, nullptr));
 }
+
 ClassDemoApp::~ClassDemoApp() {
 	clear();
 	SDL_Quit();
 }
+
 void ClassDemoApp::DrawText(int fontTexture, std::string text, float size, float spacing) {
 	float texture_size = 1.0 / 16.0f;
 	std::vector<float> vertexData;
@@ -103,6 +108,7 @@ void ClassDemoApp::ProcessEvents() {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
 		}
+
 	}
 }
 
