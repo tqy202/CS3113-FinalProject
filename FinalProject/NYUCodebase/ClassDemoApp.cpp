@@ -107,7 +107,7 @@ void ClassDemoApp::ProcessEvents() {
 }
 
 void ClassDemoApp::Update(float elapsed) {
-	if (state == 1){
+	if (state == STATE_GAME){
 
 		/*if (alien->velocityXPos< 0 && (alien->xpos < -1.255)){
 			for (Entity* j : aliensSprites){
@@ -204,6 +204,15 @@ void ClassDemoApp::clear(){
 	for (GLuint* tex : textures) { delete tex; }
 	textures.clear();
 }
+
+void ClassDemoApp::UpdateGame(){
+	for (std::list<Entity*>::iterator itr = bullets.begin(); itr != bullets.end(); itr++){
+		if (players[0]->collisionDetection(*itr)){
+
+		}
+	}
+}
+
 void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.69f, 0.7f, 0.0);

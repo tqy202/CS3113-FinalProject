@@ -47,6 +47,7 @@ private:
 	std::vector<GLuint*> textures;
 
 	void clear();
+	void UpdateGame();
 	void RenderMenu();
 	void RenderGame();
 	void win();
