@@ -13,11 +13,11 @@
 class Entity {
 public:
 	Entity();
-	Entity(float x, float y, float wid, float hei, SheetSprite* tex = nullptr);
-	Entity(float x, float y, float wid, float hei, float ang = 0, float vel = 0,SheetSprite* tex = nullptr);
+	Entity(float x, float y, float wid, float hei, SheetSprite* tex);
+	Entity(float x, float y, float wid, float hei, float ang = 0, float vel = 0,SheetSprite* tex);
 	void Update(float elapsed);
 	void Render(ShaderProgram *program);
-	void collisionDetection(Entity* anEntity);
+	bool collisionDetection(Entity* anEntity);
 //acessors
 	float x();
 	float y();

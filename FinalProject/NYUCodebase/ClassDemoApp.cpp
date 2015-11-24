@@ -40,6 +40,11 @@ void ClassDemoApp::Setup() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	float initialYPosition = 0.7f;
+
+	entities.push_back(new Entity(-0.25,-0.25,1,1,nullptr));
+	entities.push_back(new Entity(0.25, 0.25, 1, 1, nullptr));
+
+
 }
 ClassDemoApp::~ClassDemoApp() {
 	clear();
