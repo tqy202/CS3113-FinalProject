@@ -14,7 +14,7 @@ class Entity {
 public:
 	Entity();
 	Entity(float x, float y, float wid, float hei, SheetSprite* tex);
-	Entity(float x, float y, float wid, float hei, float ang = 0, float vel = 0,SheetSprite* tex);
+	Entity(float x, float y, float wid, float hei, float ang, float vel, SheetSprite* tex);
 	void Update(float elapsed);
 	void Render(ShaderProgram *program);
 	bool collisionDetection(Entity* anEntity);
