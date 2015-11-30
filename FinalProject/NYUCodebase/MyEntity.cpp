@@ -50,6 +50,7 @@ void Entity::Update(float elapsed){
 //acessors
 float Entity::x(){ return xpos; }
 float Entity::y(){ return ypos; }
+const Matrix& Entity::getMatrix(){ return modelMatrix; }
 
 //mutators
 void Entity::move(float newX, float newY){

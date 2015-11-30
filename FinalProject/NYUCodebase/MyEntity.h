@@ -21,7 +21,8 @@ public:
 //acessors
 	float x();
 	float y();
-	
+	const Matrix& getMatrix();
+
 //mutators
 	void move(float newX, float newY);
 	void x(float distance, bool isNewCoord = false);

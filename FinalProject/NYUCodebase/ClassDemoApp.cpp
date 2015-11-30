@@ -118,16 +118,6 @@ void ClassDemoApp::ProcessEvents() {
 		if (keys[SDL_SCANCODE_A]){ players[0]->move(-0.1, 0); }
 		if (keys[SDL_SCANCODE_D]){ players[0]->move(0.1, 0); }
 
-		for (int i = 0; i < bullets.size(); i++){
-			if (players[0]->collisionDetection(bullets[i])){
-				delete players[0];
-			}
-			if (players[1]->collisionDetection(bullets[i])){
-				delete players[1];
-			}
-		}
-
-
 	}
 }
 
@@ -233,7 +223,14 @@ void ClassDemoApp::clear(){
 void ClassDemoApp::UpdateGame(){
 	for (std::list<Entity*>::iterator itr = bullets.begin(); itr != bullets.end(); itr++){
 		if (players[0]->collisionDetection(*itr)){
-
+			delete *itr;
+			itr = bullets.erase(itr);
+			itr--;
+		}
+		if (players[1]->collisionDetection(*itr)){
+			delete *itr;
+			itr = bullets.erase(itr);
+			itr--;
 		}
 	}
 }
