@@ -108,6 +108,25 @@ void ClassDemoApp::ProcessEvents() {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
 		}
+		if (keys[SDL_SCANCODE_UP]){ players[1]->move(0, 0.1); }
+		if (keys[SDL_SCANCODE_DOWN]){ players[1]->move(0.0, -0.1); }
+		if (keys[SDL_SCANCODE_LEFT]){ players[1]->move(-0.1, 0); }
+		if (keys[SDL_SCANCODE_RIGHT]){ players[1]->move(0.1, 0); }
+
+		if (keys[SDL_SCANCODE_W]){ players[0]->move(0, 0.1); }
+		if (keys[SDL_SCANCODE_S]){ players[0]->move(0.0, -0.1); }
+		if (keys[SDL_SCANCODE_A]){ players[0]->move(-0.1, 0); }
+		if (keys[SDL_SCANCODE_D]){ players[0]->move(0.1, 0); }
+
+		for (int i = 0; i < bullets.size(); i++){
+			if (players[0]->collisionDetection(bullets[i])){
+				delete players[0];
+			}
+			if (players[1]->collisionDetection(bullets[i])){
+				delete players[1];
+			}
+		}
+
 
 	}
 }
