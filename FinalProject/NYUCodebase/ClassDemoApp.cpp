@@ -108,95 +108,28 @@ void ClassDemoApp::ProcessEvents() {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
 		}
-		if (keys[SDL_SCANCODE_UP]){ players[1]->move(0, 0.1); }
-		if (keys[SDL_SCANCODE_DOWN]){ players[1]->move(0.0, -0.1); }
-		if (keys[SDL_SCANCODE_LEFT]){ players[1]->move(-0.1, 0); }
-		if (keys[SDL_SCANCODE_RIGHT]){ players[1]->move(0.1, 0); }
+		if (keys[SDL_SCANCODE_UP]){ players[PLAYER_2]->move(0, 0.1); }
+		if (keys[SDL_SCANCODE_DOWN]){ players[PLAYER_2]->move(0.0, -0.1); }
+		if (keys[SDL_SCANCODE_LEFT]){ players[PLAYER_2]->move(-0.1, 0); }
+		if (keys[SDL_SCANCODE_RIGHT]){ players[PLAYER_2]->move(0.1, 0); }
 
-		if (keys[SDL_SCANCODE_W]){ players[0]->move(0, 0.1); }
-		if (keys[SDL_SCANCODE_S]){ players[0]->move(0.0, -0.1); }
-		if (keys[SDL_SCANCODE_A]){ players[0]->move(-0.1, 0); }
-		if (keys[SDL_SCANCODE_D]){ players[0]->move(0.1, 0); }
+		if (keys[SDL_SCANCODE_W]){ players[PLAYER_1]->move(0, 0.1); }
+		if (keys[SDL_SCANCODE_S]){ players[PLAYER_1]->move(0.0, -0.1); }
+		if (keys[SDL_SCANCODE_A]){ players[PLAYER_1]->move(-0.1, 0); }
+		if (keys[SDL_SCANCODE_D]){ players[PLAYER_1]->move(0.1, 0); }
 
 	}
 }
 
 void ClassDemoApp::Update(float elapsed) {
-	if (state == STATE_GAME){
-
-		/*if (alien->velocityXPos< 0 && (alien->xpos < -1.255)){
-			for (Entity* j : aliensSprites){
-			j->velocityXPos = 0.3f;
-			j->ypos -= .05f;
-			}
-			}
-			else if (alien->velocityXPos > 0){
-			for (size_t i = 0; i < aliensSprites.size(); i++){
-			if (aliensSprites[i] != NULL){
-			alien = aliensSprites[i];
-			}
-			}
-			if (alien->xpos > 1.255){
-			for (Entity* h : aliensSprites){
-			h->velocityXPos = -0.3f;
-			h->ypos -= .05f;
-			}
-			}
-			}
-			}
-			timesincelastfire += elapsed;
-			if (keys[SDL_SCANCODE_SPACE]){
-			if (timesincelastfire > 0.8){
-			//then make a new bullet
-			//playerBullets.push_back(new Entity(player->xpos, (player->ypos + player->iheight), .03f, player->iheight));
-			// then we take the most recent bullet and make it have a velocity in the y direction so it can move upwards
-			//playerBullets[playerBullets.size() - 1]->velocityYPos = 0.6f;
-			//reset the time since the last bullet fired so you can check for that elapsed time again
-			timesincelastfire = 0.0f;
-			}
-			}
-			for (size_t i = 0; i < playerBullets.size(); i++){
-			if (playerBullets[i]->ypos > 1.3){
-			// when the bullet goes out of the screen, let's delete them.
-			delete playerBullets[i];
-			playerBullets.erase(playerBullets.begin() + i);
-			}
-			}
-			for (size_t i = 0; i < playerBullets.size(); i++){
-			Entity* k = playerBullets[i];
-			for (size_t j = 0; j < aliensSprites.size(); j++){
-			Entity* a = aliensSprites[j];
-			// collision detection
-			if (!(
-			(k->ypos - (k->iheight / 2)) >(a->ypos + (a->iheight / 2)) ||
-			(k->ypos + (k->iheight / 2)) < (a->ypos - (a->iheight / 2)) ||
-			(k->xpos - (k->iwidth / 2)) > (a->xpos + (a->iwidth / 2)) ||
-			(k->xpos + (k->iwidth / 2)) < (a->xpos - (a->iwidth / 2))
-			))
-			{
-			delete playerBullets[i];
-			playerBullets.erase(playerBullets.begin() + i);
-			delete aliensSprites[j];
-			aliensSprites.erase(aliensSprites.begin() + j);
-			break;
-			}
-
-			}
-			}
-			//update the aliens
-			for (Entity* t : aliensSprites){
-			t->Update(elapsed);
-			}
-			//update the bullets
-			for (Entity* t : playerBullets){
-			t->Update(elapsed);
-			}
-			}
-			// move things based on time passed
-			// check for collisions and respond to them
-			*/
+	if (state == 1){
+		for (Entity* itr : bullets){
+			itr->update(elapsed);
+		}
 	}
 }
+
+
 bool ClassDemoApp::UpdateAndRender() {
 	float ticks = (float)SDL_GetTicks() / 1000.0f;
 	float elapsed = ticks - lastFrameTicks;
