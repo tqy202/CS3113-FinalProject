@@ -28,3 +28,8 @@
 *.app
 *.suo
 *.sdf
+*.sdf
+FinalProject/NYUCodebase.sdf
+*.suo
+FinalProject/NYUCodebase.v12.suo
+*.sdf
