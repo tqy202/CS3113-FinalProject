@@ -10,10 +10,23 @@
 #define PI 3.14159265
 #endif
 
-float orthMaxX = 1.33;
-float orthMinX = -1.33;
-float orthMaxY = 1.0;
-float orthMinY = -1.0;
+#ifndef orthMaxX
+#define orthMaxX 1.33
+#endif
+
+#ifndef orthMinX
+#define orthMinX -1.33
+#endif
+
+#ifndef orthMaxY
+#define orthMaxY 1.0
+#endif
+
+#ifndef orthMinY
+#define orthMinY -1.0
+#endif
+
+
 class Entity {
 public:
 	Entity();
