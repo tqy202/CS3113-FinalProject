@@ -242,14 +242,15 @@ void ClassDemoApp::RenderMenu(){
 }
 
 void ClassDemoApp::RenderGame(){
-	/*modelMatrix.identity();
-	for (size_t i = 0; i < aliensSprites.size(); i++) {
-		aliensSprites[i]->Render(program);
+	for (Entity* ent : bullets){
+		ent->Render(program);
 	}
-	for (Entity* y : playerBullets){
-		y->Render(program);
+	for (Entity* ent : players){
+		ent->Render(program);
 	}
-	player->Render(program);*/
+	for (Entity* ent : entities){
+		ent->Render(program);
+	}
 }
 void ClassDemoApp::win(){
 	modelMatrix.identity();
