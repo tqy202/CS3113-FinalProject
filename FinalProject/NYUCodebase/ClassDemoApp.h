@@ -14,7 +14,12 @@
 #include "SheetSprite.h"
 #include "MyEntity.h"
 
+#ifndef PLAYERSPEED
+#define PLAYERSPEED .01
+#endif
 
+
+enum LocationOfPlayah{ PLAYER_1, PLAYER_2 };
 enum GameState { STATE_MENU, STATE_GAME, STATE_END };
 GLuint* LoadTexture(const char *image_path);
 class ClassDemoApp {
@@ -35,22 +40,21 @@ private:
 	Matrix viewMatrix;
 	ShaderProgram *program;
 	SDL_Event event;
-	
+
 	bool done;
 	int state;
 	//bool amAlive;
 	//Entity* player;
-	float timesincelastfire;
 	std::vector<Entity*> players;
 	std::list<Entity*> entities;
 	std::list<Entity*> bullets;
 	std::vector<GLuint*> textures;
 
 	void clear();
-	void UpdateGame();
 	void RenderMenu();
 	void RenderGame();
 	void win();
 	void lose();
+	void UpdateGame();
 	const Uint8 *keys = SDL_GetKeyboardState(NULL);
 };

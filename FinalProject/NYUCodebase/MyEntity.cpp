@@ -1,12 +1,17 @@
 #include "MyEntity.h"
+#ifdef _WINDOWS
+#define RESOURCE_FOLDER ""
+#else
+#define RESOURCE_FOLDER "NYUCodebase.app/Contents/Resources/"
+#endif
 
-Entity::Entity(float x, float y, float wid, float hei, SheetSprite* tex) :
+Entity::Entity(float x, float y, float wid, float hei, SheetSprite* tex = nullptr) :
 xpos(x), ypos(y), width(wid), height(hei), sprite(tex), angle(0), velocity(0)
 {
 	modelMatrix.identity();
 	modelMatrix.Translate(xpos, ypos, 0);
 }
-Entity::Entity(float x, float y, float wid, float hei, float ang, float vel, SheetSprite* tex) :
+Entity::Entity(float x, float y, float wid, float hei, float ang, float vel, SheetSprite* tex = nullptr) :
 xpos(x), ypos(y), width(wid), height(hei), sprite(tex), angle(ang), velocity(vel)
 {
 	modelMatrix.identity();
@@ -40,12 +45,22 @@ void Entity::Render(ShaderProgram *program){
 	//glDisableVertexAttribArray(program->texCoordAttribute);
 
 }
-void Entity::Update(float elapsed){
+bool Entity::Update(float elapsed){
 	float changeX = velocity * cos(angle*PI/180.0);
 	float changeY = velocity * sin(angle*PI / 180.0);
 	xpos += changeX;
 	ypos += changeY;
 	modelMatrix.Translate(changeX, changeY, 0);
+	if (this->ypos > orthMaxY){
+		this->angle *= -1;
+		this->xpos *= -1;
+		this->velocity *= -1;
+	}
+	else if (this->ypos < orthMinY){
+		delete this;
+		return true;
+	}
+	return false;
 }
 //acessors
 float Entity::x(){ return xpos; }
@@ -75,4 +90,8 @@ void Entity::y(float distance, bool isNewCoord){
 		ypos += distance;
 		modelMatrix.Translate(0, distance, 0);
 	}
+}
+
+void Entity::shootBullet(std::list<Entity*>& bullets){
+	bullets.push_back(new Entity(xpos, ypos + height / 2, .005, .01, 90, 10));
 }

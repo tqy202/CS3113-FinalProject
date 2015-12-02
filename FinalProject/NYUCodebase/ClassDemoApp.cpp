@@ -32,17 +32,15 @@ void ClassDemoApp::Setup() {
 	glViewport(0, 0, 800, 600);
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
 	projectionMatrix.setOrthoProjection(-1.33f, 1.33f, -1.0f, 1.0f, -1.0f, 1.0f);
-	bool done = false;
+	done = false;
 	textures.push_back(LoadTexture("pixel_font.png"));
 	textures.push_back(LoadTexture("sprites.png"));
-	int state = STATE_GAME;
-	timesincelastfire = 0.0f;
+	state = STATE_GAME;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	float initialYPosition = 0.7f;
 
-	players.push_back(new Entity(-0.25,-0.25,1,1,nullptr));
-	players.push_back(new Entity(0.25, 0.25, 1, 1, nullptr));
+	players.push_back(new Entity(-0.25, -0.9 ,0.1,.1,nullptr));
+	players.push_back(new Entity(0.25, -0.9, 0.1, .1, nullptr));
 }
 
 ClassDemoApp::~ClassDemoApp() {
@@ -108,23 +106,75 @@ void ClassDemoApp::ProcessEvents() {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
 		}
-		if (keys[SDL_SCANCODE_UP]){ players[PLAYER_2]->move(0, 0.1); }
-		if (keys[SDL_SCANCODE_DOWN]){ players[PLAYER_2]->move(0.0, -0.1); }
-		if (keys[SDL_SCANCODE_LEFT]){ players[PLAYER_2]->move(-0.1, 0); }
-		if (keys[SDL_SCANCODE_RIGHT]){ players[PLAYER_2]->move(0.1, 0); }
+		if (keys[SDL_SCANCODE_UP]){ 
+			players[PLAYER_2]->y(PLAYERSPEED);
+			if (players[PLAYER_2]->y() + (players[PLAYER_2]->height/2 + .001) > orthMaxY){				
+				players[PLAYER_2]->y(orthMaxY - (players[PLAYER_2]->height / 2 + 0.001), true);
+			}
 
-		if (keys[SDL_SCANCODE_W]){ players[PLAYER_1]->move(0, 0.1); }
-		if (keys[SDL_SCANCODE_S]){ players[PLAYER_1]->move(0.0, -0.1); }
-		if (keys[SDL_SCANCODE_A]){ players[PLAYER_1]->move(-0.1, 0); }
-		if (keys[SDL_SCANCODE_D]){ players[PLAYER_1]->move(0.1, 0); }
+		}
 
+		if (keys[SDL_SCANCODE_DOWN]){
+			players[PLAYER_2]->y(-1 * PLAYERSPEED);
+			if (players[PLAYER_2]->y() - (players[PLAYER_2]->height / 2 + .001) < orthMinY){
+				players[PLAYER_2]->y(orthMinY + (players[PLAYER_2]->height / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_LEFT]){
+			players[PLAYER_2]->x(-1 * PLAYERSPEED);
+			if (players[PLAYER_2]->x() + (players[PLAYER_2]->width / 2 + .001) < 0){
+				players[PLAYER_2]->x(orthMaxX - (players[PLAYER_2]->width / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_RIGHT]){
+			players[PLAYER_2]->x(PLAYERSPEED);
+			if (players[PLAYER_2]->x() - (players[PLAYER_2]->width / 2 + .001) > orthMaxX){
+				players[PLAYER_2]->x(0 + (players[PLAYER_2]->width / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_0]){ players[PLAYER_2]->shootBullet(bullets);}
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		if (keys[SDL_SCANCODE_W]){
+			players[PLAYER_1]->y(PLAYERSPEED);
+			if (players[PLAYER_1]->y() + (players[PLAYER_1]->height / 2 + .001) > orthMaxY){
+				players[PLAYER_1]->y(orthMaxY - (players[PLAYER_1]->height / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_S]){
+			players[PLAYER_1]->y(-1*PLAYERSPEED);
+			if (players[PLAYER_1]->y() - (players[PLAYER_1]->height / 2 + .001) < orthMinY){
+				players[PLAYER_1]->y(orthMinY + (players[PLAYER_1]->height / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_A]){
+			players[PLAYER_1]->x(-1*PLAYERSPEED);
+			if (players[PLAYER_1]->x() - (players[PLAYER_1]->width / 2 + .001) < orthMinX){
+				players[PLAYER_1]->x(0 - (players[PLAYER_1]->width / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_D]){
+			players[PLAYER_1]->x(PLAYERSPEED);
+			if (players[PLAYER_1]->x() + (players[PLAYER_1]->width / 2 + .001) > 0){
+				players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
+			}
+		}
+
+		if (keys[SDL_SCANCODE_SPACE]){ players[PLAYER_1]->shootBullet(bullets); }
 	}
 }
 
 void ClassDemoApp::Update(float elapsed) {
 	if (state == 1){
 		for (Entity* itr : bullets){
-			itr->update(elapsed);
+			itr->Update(elapsed);
 		}
 	}
 }
@@ -184,7 +234,9 @@ void ClassDemoApp::RenderGame(){
 	for (Entity* ent : entities){
 		ent->Render(program);
 	}
+	program->setViewMatrix(viewMatrix);
 }
+
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
