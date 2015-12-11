@@ -3,14 +3,19 @@
 #ifdef _WINDOWS
 #include <GL/glew.h>
 #endif
+
+#include <vector>
+#include <list>
+#include <string>
+#include <stdlib.h>
+#include <time.h>
+#include <algorithm>
+
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include "Matrix.h"
 #include "ShaderProgram.h"
-#include <vector>
-#include <list>
-#include <string>
 #include "SheetSprite.h"
 #include "MyEntity.h"
 
@@ -40,13 +45,17 @@ private:
 	Matrix viewMatrix;
 	ShaderProgram *program;
 	SDL_Event event;
+	size_t level;
+	size_t blocksLeft;
 
 	bool done;
 	int state;
+	const Uint8 *keys;// = SDL_GetKeyboardState(NULL);
+	
 	//bool amAlive;
 	//Entity* player;
 	std::vector<Entity*> players;
-	std::list<Entity*> entities;
+	std::list<Entity*> UI;
 	std::list<Entity*> bullets;
 	std::vector<GLuint*> textures;
 
@@ -56,5 +65,6 @@ private:
 	void win();
 	void lose();
 	void UpdateGame();
-	const Uint8 *keys = SDL_GetKeyboardState(NULL);
+	float randomX();
+
 };

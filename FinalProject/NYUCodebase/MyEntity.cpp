@@ -51,12 +51,12 @@ bool Entity::Update(float elapsed){
 	xpos += changeX;
 	ypos += changeY;
 	modelMatrix.Translate(changeX, changeY, 0);
-	if (this->ypos > orthMaxY){
+	/*if (this->ypos > orthMaxY){
 		this->angle *= -1;
 		this->xpos *= -1;
 		this->velocity *= -1;
 	}
-	else if (this->ypos < orthMinY){
+	else*/ if (this->ypos < orthMinY){
 		delete this;
 		return true;
 	}
@@ -93,5 +93,5 @@ void Entity::y(float distance, bool isNewCoord){
 }
 
 void Entity::shootBullet(std::list<Entity*>& bullets){
-	bullets.push_back(new Entity(xpos, ypos + height / 2, .005, .01, 90, 10));
+	bullets.push_back(new Entity(xpos, ypos + (height / 2) + 0.1, .01, .01, 90, 10));
 }

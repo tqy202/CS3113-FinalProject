@@ -11,6 +11,7 @@
 #include <math.h>
 #include <iostream>
 #include <list>
+#include <iostream>
 
 #ifndef PI
 #define PI 3.14159265

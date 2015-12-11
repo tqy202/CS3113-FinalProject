@@ -18,6 +18,8 @@ GLuint* LoadTexture(const char *image_path) {
 }
 ClassDemoApp::ClassDemoApp() {
 	Setup();
+	textures.push_back(LoadTexture("pixel_font.png"));
+	textures.push_back(LoadTexture("sprites.png"));
 }
 void ClassDemoApp::Setup() {
 	// SDL and OpenGL initialization
@@ -33,18 +35,23 @@ void ClassDemoApp::Setup() {
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
 	projectionMatrix.setOrthoProjection(-1.33f, 1.33f, -1.0f, 1.0f, -1.0f, 1.0f);
 	done = false;
-	textures.push_back(LoadTexture("pixel_font.png"));
-	textures.push_back(LoadTexture("sprites.png"));
 	state = STATE_GAME;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	players.push_back(new Entity(-0.25, -0.9 ,0.1,.1,nullptr));
 	players.push_back(new Entity(0.25, -0.9, 0.1, .1, nullptr));
+
+	level = 1;
+	blocksLeft = 30;
+
+	srand(time(NULL));
 }
 
 ClassDemoApp::~ClassDemoApp() {
 	clear();
+	for (GLuint* tex : textures) { delete tex; }
+	textures.clear();
 	SDL_Quit();
 }
 
@@ -106,6 +113,9 @@ void ClassDemoApp::ProcessEvents() {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
 		}
+
+		keys = SDL_GetKeyboardState(NULL);
+
 		if (keys[SDL_SCANCODE_UP]){ 
 			players[PLAYER_2]->y(PLAYERSPEED);
 			if (players[PLAYER_2]->y() + (players[PLAYER_2]->height/2 + .001) > orthMaxY){				
@@ -135,8 +145,7 @@ void ClassDemoApp::ProcessEvents() {
 			}
 		}
 
-		if (keys[SDL_SCANCODE_0]){ players[PLAYER_2]->shootBullet(bullets);}
-		
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		if (keys[SDL_SCANCODE_W]){
@@ -166,15 +175,26 @@ void ClassDemoApp::ProcessEvents() {
 				players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
 			}
 		}
-
-		if (keys[SDL_SCANCODE_SPACE]){ players[PLAYER_1]->shootBullet(bullets); }
 	}
 }
 
 void ClassDemoApp::Update(float elapsed) {
-	if (state == 1){
-		for (Entity* itr : bullets){
-			itr->Update(elapsed);
+	if (state == STATE_GAME){
+		if (blocksLeft > 0){
+			if (rand() % 100 < std::min((int)(level * 25), 80)){
+				bullets.push_back(new Entity(randomX(), orthMaxY, 0.05, 0.05, -90, ((float)level) * .01, nullptr));
+				bullets.push_back(new Entity(-1 * randomX(), orthMaxY, 0.05, 0.05, -90, ((float)level) * .01, nullptr));
+			}
+		}
+		else if (bullets.size() <= 0){
+			level++;
+			blocksLeft = level * 15 + 15;
+		}
+		else{
+			for (Entity* itr : bullets){
+				itr->Update(elapsed);
+			}
+			UpdateGame();
 		}
 	}
 }
@@ -195,26 +215,24 @@ bool ClassDemoApp::UpdateAndRender() {
 void ClassDemoApp::clear(){
 	for (Entity* ent : players) { delete ent; }
 	players.clear();
-	for (Entity* ent : entities) { delete ent; }
-	entities.clear();
+	for (Entity* ent : UI) { delete ent; }
+	UI.clear();
 	for (Entity* ent : bullets) { delete ent; }
 	bullets.clear();
-	for (GLuint* tex : textures) { delete tex; }
-	textures.clear();
 }
 
 void ClassDemoApp::UpdateGame(){
-	for (std::list<Entity*>::iterator itr = bullets.begin(); itr != bullets.end(); itr++){
-		if (players[0]->collisionDetection(*itr)){
+
+	for (std::list<Entity*>::iterator itr = bullets.begin(); itr != bullets.end();){
+		if (players[PLAYER_1]->collisionDetection(*itr)){
 			delete *itr;
 			itr = bullets.erase(itr);
-			itr--;
 		}
-		if (players[1]->collisionDetection(*itr)){
+		else if (players[PLAYER_2]->collisionDetection(*itr)){
 			delete *itr;
 			itr = bullets.erase(itr);
-			itr--;
 		}
+		else{ itr++; }
 	}
 }
 
@@ -231,7 +249,7 @@ void ClassDemoApp::RenderGame(){
 	for (Entity* ent : players){
 		ent->Render(program);
 	}
-	for (Entity* ent : entities){
+	for (Entity* ent : UI){
 		ent->Render(program);
 	}
 	program->setViewMatrix(viewMatrix);
@@ -247,3 +265,9 @@ void ClassDemoApp::lose(){
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
 	//DrawText(fontTexture, "You lose", 0.13f, 0.0f);
 }
+
+float ClassDemoApp::randomX(){
+	float percent = (float) (rand() % 10000) ;
+	return percent / 100.00 * orthMaxX;
+}
+
