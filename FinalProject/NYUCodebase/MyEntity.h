@@ -1,10 +1,17 @@
 #pragma once
 
+#ifdef _WINDOWS
+#include <GL/glew.h>
+#endif
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
 #include "ShaderProgram.h"
 #include "SheetSprite.h"
 #include <math.h>
 #include <iostream>
 #include <list>
+#include <iostream>
 
 #ifndef PI
 #define PI 3.14159265
