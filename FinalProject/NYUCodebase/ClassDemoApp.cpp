@@ -32,11 +32,10 @@ void ClassDemoApp::Setup() {
 	glViewport(0, 0, 800, 600);
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
 	projectionMatrix.setOrthoProjection(-1.33f, 1.33f, -1.0f, 1.0f, -1.0f, 1.0f);
-	bool done = false;
+	done = false;
 	textures.push_back(LoadTexture("pixel_font.png"));
 	textures.push_back(LoadTexture("sprites.png"));
-	int state = STATE_GAME;
-	timesincelastfire = 0.0f;
+	state = STATE_GAME;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	float initialYPosition = 0.7f;
@@ -98,6 +97,10 @@ void ClassDemoApp::Render() {
 		RenderGame();
 		break;
 	case STATE_END:
+		//changes
+		if (player1Wins){ win(); }
+		else{ lose(); }
+		// changes
 		break;
 	}
 	SDL_GL_SwapWindow(displayWindow);
@@ -202,19 +205,35 @@ void ClassDemoApp::UpdateGame(){
 			delete *itr;
 			itr = bullets.erase(itr);
 			itr--;
+			//changes
+			players[0]->width -= 0.02; // hardcoded numbers to subtract from the width of the block
+			// changes
 		}
 		if (players[1]->collisionDetection(*itr)){
 			delete *itr;
 			itr = bullets.erase(itr);
 			itr--;
+			//changes 
+			players[1]->width -= 0.02; // hardcoded numbers to subtract from the width of the block
+			//changes
 		}
+		// changes
+		if (((players[0]->width <= 0.001) && players[0]->collisionDetection(*itr))){
+			player1Wins = true;
+			GameState stateGame = STATE_END;
+		}
+		if (((players[1]->width <= 0.001) && players[1]->collisionDetection(*itr))){
+			player1Wins = false;
+			GameState stateGame = STATE_END;
+		}
+		// changes
 	}
 }
 
 void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.69f, 0.7f, 0.0);
-	//DrawText(fontTexture, "My SpaceInvaders Game", 0.13f, 0.0f);
+	//DrawText(fontTexture, "KittyHell", 0.13f, 0.0f);
 }
 
 void ClassDemoApp::RenderGame(){
@@ -232,10 +251,10 @@ void ClassDemoApp::RenderGame(){
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	//DrawText(fontTexture, "You win", 0.13f, 0.0f);
+	//DrawText(fontTexture, "Player 1 wins", 0.13f, 0.0f);
 }
 void ClassDemoApp::lose(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	//DrawText(fontTexture, "You lose", 0.13f, 0.0f);
+	//DrawText(fontTexture, "Player 2 wins", 0.13f, 0.0f);
 }

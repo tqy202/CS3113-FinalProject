@@ -37,6 +37,7 @@ private:
 	SDL_Event event;
 
 	bool done;
+	bool player1Wins;
 	int state;
 	//bool amAlive;
 	//Entity* player;
