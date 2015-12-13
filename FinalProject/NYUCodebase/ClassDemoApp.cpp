@@ -186,6 +186,9 @@ void ClassDemoApp::ProcessEvents() {
 			}
 			break;
 		case STATE_END:
+			if (keys[SDL_SCANCODE_RETURN]){
+				state = STATE_MENU;
+			}
 			break;
 		}
 	}
@@ -214,6 +217,7 @@ void ClassDemoApp::Update(float elapsed) {
 			UpdateGame();
 		//}
 	}
+	
 }
 
 

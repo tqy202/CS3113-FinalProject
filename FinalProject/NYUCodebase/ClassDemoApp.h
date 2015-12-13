@@ -38,7 +38,6 @@ public:
 	bool UpdateAndRender();
 	void Render();
 	void Update(float elapsed);
-	void DrawText(int fontTexture, std::string text, float size, float spacing);
 private:
 	float lastFrameTicks;
 	SDL_Window* displayWindow;
@@ -69,5 +68,6 @@ private:
 	void lose();
 	void UpdateGame();
 	float randomX();
+	void DrawText(int fontTexture, std::string text, float size, float spacing);
 
 };
