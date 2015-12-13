@@ -22,7 +22,9 @@
 #ifndef PLAYERSPEED
 #define PLAYERSPEED .01
 #endif
-
+#ifndef FIXED_TIMESTEP
+#define FIXED_TIMESTEP 0.0166666f
+#endif
 
 enum LocationOfPlayah{ PLAYER_1, PLAYER_2 };
 enum GameState { STATE_MENU, STATE_GAME, STATE_END };

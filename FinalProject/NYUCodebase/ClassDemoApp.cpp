@@ -24,7 +24,7 @@ ClassDemoApp::ClassDemoApp() {
 void ClassDemoApp::Setup() {
 	// SDL and OpenGL initialization
 	SDL_Init(SDL_INIT_VIDEO);
-	displayWindow = SDL_CreateWindow("Space Invaders", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+	displayWindow = SDL_CreateWindow("Whoops", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
 	SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
 	SDL_GL_MakeCurrent(displayWindow, context);
 #ifdef _WINDOWS
@@ -35,20 +35,17 @@ void ClassDemoApp::Setup() {
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
 	projectionMatrix.setOrthoProjection(-1.33f, 1.33f, -1.0f, 1.0f, -1.0f, 1.0f);
 	done = false;
-<<<<<<< HEAD
-	textures.push_back(LoadTexture("pixel_font.png"));
-	textures.push_back(LoadTexture("sprites.png"));
-=======
->>>>>>> origin/master
+
 	state = STATE_GAME;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	players.push_back(new Entity(-0.25, -0.9 ,0.1,.1,nullptr));
-	players.push_back(new Entity(0.25, -0.9, 0.1, .1, nullptr));
+	players.push_back(new Entity(-0.25, -0.9 ,0.1,.05,nullptr));
+	players.push_back(new Entity(0.25, -0.9, 0.1, .05, nullptr));
+	UI.push_back(new Entity(0,0,0.01,2*orthMaxY, nullptr));
 
 	level = 1;
-	blocksLeft = 30;
+	blocksLeft = 50;
 
 	srand(time(NULL));
 }
@@ -124,87 +121,98 @@ void ClassDemoApp::ProcessEvents() {
 		}
 
 		keys = SDL_GetKeyboardState(NULL);
+		switch (state) {
+		case STATE_MENU:
+			break;
+		case STATE_GAME:
+			if (keys[SDL_SCANCODE_UP]){
+				players[PLAYER_2]->y(PLAYERSPEED);
+				if (players[PLAYER_2]->y() + (players[PLAYER_2]->height / 2 + .001) > orthMaxY){
+					players[PLAYER_2]->y(orthMaxY - (players[PLAYER_2]->height / 2 + 0.001), true);
+				}
 
-		if (keys[SDL_SCANCODE_UP]){ 
-			players[PLAYER_2]->y(PLAYERSPEED);
-			if (players[PLAYER_2]->y() + (players[PLAYER_2]->height/2 + .001) > orthMaxY){				
-				players[PLAYER_2]->y(orthMaxY - (players[PLAYER_2]->height / 2 + 0.001), true);
 			}
 
-		}
-
-		if (keys[SDL_SCANCODE_DOWN]){
-			players[PLAYER_2]->y(-1 * PLAYERSPEED);
-			if (players[PLAYER_2]->y() - (players[PLAYER_2]->height / 2 + .001) < orthMinY){
-				players[PLAYER_2]->y(orthMinY + (players[PLAYER_2]->height / 2 + 0.001), true);
+			else if (keys[SDL_SCANCODE_DOWN]){
+				players[PLAYER_2]->y(-1 * PLAYERSPEED);
+				if (players[PLAYER_2]->y() - (players[PLAYER_2]->height / 2 + .001) < orthMinY){
+					players[PLAYER_2]->y(orthMinY + (players[PLAYER_2]->height / 2 + 0.001), true);
+				}
 			}
-		}
 
-		if (keys[SDL_SCANCODE_LEFT]){
-			players[PLAYER_2]->x(-1 * PLAYERSPEED);
-			if (players[PLAYER_2]->x() + (players[PLAYER_2]->width / 2 + .001) < 0){
-				players[PLAYER_2]->x(orthMaxX - (players[PLAYER_2]->width / 2 + 0.001), true);
+			if (keys[SDL_SCANCODE_LEFT]){
+				players[PLAYER_2]->x(-1 * PLAYERSPEED);
+				if (players[PLAYER_2]->x() - (players[PLAYER_2]->width / 2 - .001) < 0){
+					players[PLAYER_2]->x(orthMaxX - (players[PLAYER_2]->width / 2 + 0.001), true);
+				}
 			}
-		}
 
-		if (keys[SDL_SCANCODE_RIGHT]){
-			players[PLAYER_2]->x(PLAYERSPEED);
-			if (players[PLAYER_2]->x() - (players[PLAYER_2]->width / 2 + .001) > orthMaxX){
-				players[PLAYER_2]->x(0 + (players[PLAYER_2]->width / 2 + 0.001), true);
+			else if (keys[SDL_SCANCODE_RIGHT]){
+				players[PLAYER_2]->x(PLAYERSPEED);
+				if (players[PLAYER_2]->x() + (players[PLAYER_2]->width / 2 + .001) > orthMaxX){
+					players[PLAYER_2]->x(0 + (players[PLAYER_2]->width / 2 + 0.001), true);
+				}
 			}
-		}
 
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		if (keys[SDL_SCANCODE_W]){
-			players[PLAYER_1]->y(PLAYERSPEED);
-			if (players[PLAYER_1]->y() + (players[PLAYER_1]->height / 2 + .001) > orthMaxY){
-				players[PLAYER_1]->y(orthMaxY - (players[PLAYER_1]->height / 2 + 0.001), true);
+			if (keys[SDL_SCANCODE_W]){
+				players[PLAYER_1]->y(PLAYERSPEED);
+				if (players[PLAYER_1]->y() + (players[PLAYER_1]->height / 2 + .001) > orthMaxY){
+					players[PLAYER_1]->y(orthMaxY - (players[PLAYER_1]->height / 2 + 0.001), true);
+				}
 			}
-		}
 
-		if (keys[SDL_SCANCODE_S]){
-			players[PLAYER_1]->y(-1*PLAYERSPEED);
-			if (players[PLAYER_1]->y() - (players[PLAYER_1]->height / 2 + .001) < orthMinY){
-				players[PLAYER_1]->y(orthMinY + (players[PLAYER_1]->height / 2 + 0.001), true);
+			else if (keys[SDL_SCANCODE_S]){
+				players[PLAYER_1]->y(-1 * PLAYERSPEED);
+				if (players[PLAYER_1]->y() - (players[PLAYER_1]->height / 2 + .001) < orthMinY){
+					players[PLAYER_1]->y(orthMinY + (players[PLAYER_1]->height / 2 + 0.001), true);
+				}
 			}
-		}
 
-		if (keys[SDL_SCANCODE_A]){
-			players[PLAYER_1]->x(-1*PLAYERSPEED);
-			if (players[PLAYER_1]->x() - (players[PLAYER_1]->width / 2 + .001) < orthMinX){
-				players[PLAYER_1]->x(0 - (players[PLAYER_1]->width / 2 + 0.001), true);
+			if (keys[SDL_SCANCODE_A]){
+				players[PLAYER_1]->x(-1 * PLAYERSPEED);
+				if (players[PLAYER_1]->x() - (players[PLAYER_1]->width / 2 + .001) < orthMinX){
+					players[PLAYER_1]->x(0 - (players[PLAYER_1]->width / 2 + 0.001), true);
+				}
 			}
-		}
 
-		if (keys[SDL_SCANCODE_D]){
-			players[PLAYER_1]->x(PLAYERSPEED);
-			if (players[PLAYER_1]->x() + (players[PLAYER_1]->width / 2 + .001) > 0){
-				players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
+			else if (keys[SDL_SCANCODE_D]){
+				players[PLAYER_1]->x(PLAYERSPEED);
+				if (players[PLAYER_1]->x() + (players[PLAYER_1]->width / 2 + .001) > 0){
+					players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
+				}
 			}
+			break;
+		case STATE_END:
+			break;
 		}
 	}
 }
 
 void ClassDemoApp::Update(float elapsed) {
 	if (state == STATE_GAME){
-		if (blocksLeft > 0){
-			if (rand() % 100 < std::min((int)(level * 25), 80)){
-				bullets.push_back(new Entity(randomX(), orthMaxY, 0.05, 0.05, -90, ((float)level) * .01, nullptr));
-				bullets.push_back(new Entity(-1 * randomX(), orthMaxY, 0.05, 0.05, -90, ((float)level) * .01, nullptr));
+		//if (blocksLeft > 0){
+			if (rand() % 100 < std::min((int)(level * 40), 95)){
+				//for (int number = rand() % 4; number <= 0; number--){
+					float loc = randomX();
+					bullets.push_back(new Entity(loc, orthMaxY, 0.05, 0.05, -90, ((float)level) * 0.1, nullptr));
+					bullets.push_back(new Entity(-1 * loc, orthMaxY, 0.05, 0.05, -90, ((float)level) * 0.1, nullptr));
+					blocksLeft--;
+				//}
 			}
-		}
-		else if (bullets.size() <= 0){
+		//}
+		if (blocksLeft <= 0){
 			level++;
-			blocksLeft = level * 15 + 15;
+			blocksLeft = level * 25 + 50;
 		}
-		else{
+		//else{
 			for (Entity* itr : bullets){
 				itr->Update(elapsed);
 			}
 			UpdateGame();
-		}
+		//}
 	}
 }
 
@@ -214,6 +222,10 @@ bool ClassDemoApp::UpdateAndRender() {
 	float elapsed = ticks - lastFrameTicks;
 	lastFrameTicks = ticks;
 	ProcessEvents();
+	while (elapsed >= FIXED_TIMESTEP) {
+		elapsed -= FIXED_TIMESTEP;
+		Update(FIXED_TIMESTEP);
+	}
 	Update(elapsed);
 	Render();
 	return done;
@@ -236,38 +248,36 @@ void ClassDemoApp::UpdateGame(){
 		if (players[PLAYER_1]->collisionDetection(*itr)){
 			delete *itr;
 			itr = bullets.erase(itr);
-<<<<<<< HEAD
-			itr--;
 			//changes
 			players[0]->width -= 0.02; // hardcoded numbers to subtract from the width of the block
 			// changes
-=======
->>>>>>> origin/master
+			if ((players[0]->width <= 0.001)){
+				player1Wins = true;
+				state = STATE_END;
+				break;
+			}
 		}
 		else if (players[PLAYER_2]->collisionDetection(*itr)){
 			delete *itr;
 			itr = bullets.erase(itr);
-<<<<<<< HEAD
-			itr--;
 			//changes 
 			players[1]->width -= 0.02; // hardcoded numbers to subtract from the width of the block
 			//changes
+			if ((players[1]->width <= 0.001)){
+				player1Wins = false;
+				state = STATE_END;
+				break;
+			}
 		}
-		// changes
-		if (((players[0]->width <= 0.001) && players[0]->collisionDetection(*itr))){
-			player1Wins = true;
-			GameState stateGame = STATE_END;
-		}
-		if (((players[1]->width <= 0.001) && players[1]->collisionDetection(*itr))){
-			player1Wins = false;
-			GameState stateGame = STATE_END;
-		}
-		// changes
-=======
+		else if ((*itr)->y() < orthMinY - (*itr)->height/2){
+			delete *itr;
+			itr = bullets.erase(itr);
 		}
 		else{ itr++; }
->>>>>>> origin/master
+		// changes
+		// changes
 	}
+
 }
 
 void ClassDemoApp::RenderMenu(){
@@ -277,14 +287,18 @@ void ClassDemoApp::RenderMenu(){
 }
 
 void ClassDemoApp::RenderGame(){
-	for (Entity* ent : bullets){
-		ent->Render(program);
-	}
-	for (Entity* ent : players){
-		ent->Render(program);
-	}
-	for (Entity* ent : UI){
-		ent->Render(program);
+	switch (state){
+	case STATE_GAME:
+		for (Entity* ent : bullets){
+			ent->Render(program);
+		}
+		for (Entity* ent : players){
+			ent->Render(program);
+		}
+	default:
+		for (Entity* ent : UI){
+			ent->Render(program);
+		}
 	}
 	program->setViewMatrix(viewMatrix);
 }

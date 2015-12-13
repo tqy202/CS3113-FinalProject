@@ -23,6 +23,7 @@ bool Entity::collisionDetection(Entity* anEntity){
 	if (!(this->x()+ this->width / 2 < anEntity->x() - anEntity->width/ 2 || this->x() - this->width / 2 > anEntity->x() + anEntity->width / 2 || this->y() + this->height/ 2 < anEntity->y() - anEntity->height/ 2 || this->y() - this->height / 2 > anEntity->y() + anEntity->height/ 2)){
 		return true;
 	}
+	return false;
 }
 
 void Entity::Render(ShaderProgram *program){
@@ -46,8 +47,8 @@ void Entity::Render(ShaderProgram *program){
 
 }
 bool Entity::Update(float elapsed){
-	float changeX = velocity * cos(angle*PI/180.0);
-	float changeY = velocity * sin(angle*PI / 180.0);
+	float changeX = velocity * cos(angle*PI/180.0) * elapsed;
+	float changeY = velocity * sin(angle*PI / 180.0) * elapsed;
 	xpos += changeX;
 	ypos += changeY;
 	modelMatrix.Translate(changeX, changeY, 0);
@@ -56,10 +57,10 @@ bool Entity::Update(float elapsed){
 		this->xpos *= -1;
 		this->velocity *= -1;
 	}
-	else*/ if (this->ypos < orthMinY){
+	else if (this->ypos < orthMinY){
 		delete this;
 		return true;
-	}
+	}*/
 	return false;
 }
 //acessors
