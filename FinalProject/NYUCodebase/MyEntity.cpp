@@ -27,23 +27,34 @@ bool Entity::collisionDetection(Entity* anEntity){
 }
 
 void Entity::Render(ShaderProgram *program){
-	float vertex[] = { xpos - (.5 * width), ypos + (.5 * height),
+	/*float vertex[] = { xpos - (.5 * width), ypos + (.5 * height),
 		xpos - (.5 * width), ypos - (.5 * height),
 		xpos + (.5 * width), ypos - (.5 * height),
 		xpos + (.5 * width), ypos - (.5 * height),
 		xpos + (.5 * width), ypos + (.5 * height),
 		xpos - (.5 * width), ypos + (.5 * height)
+	};*/
+	float vertex[] = {  - (.5 * width),  + (.5 * height),
+		 -(.5 * width),  - (.5 * height),
+		 + (.5 * width),  - (.5 * height),
+		 + (.5 * width),  - (.5 * height),
+		 + (.5 * width),  + (.5 * height),
+		 - (.5 * width),  + (.5 * height)
 	};
-	//float texCoordData[] = {};
+	
 	glUseProgram(program->programID);
 	glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertex);
 	glEnableVertexAttribArray(program->positionAttribute);
-	//glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoordData);
-	//glEnableVertexAttribArray(program->texCoordAttribute);
-
+	if (sprite != nullptr){
+		//float texCoordData[] = {};
+		//glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoordData);
+		//glEnableVertexAttribArray(program->texCoordAttribute);
+	}
+	program->setModelMatrix(modelMatrix);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDisableVertexAttribArray(program->positionAttribute);
-	//glDisableVertexAttribArray(program->texCoordAttribute);
+	if (sprite == nullptr)
+		glDisableVertexAttribArray(program->texCoordAttribute);
 
 }
 bool Entity::Update(float elapsed){
