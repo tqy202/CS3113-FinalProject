@@ -174,12 +174,7 @@ void ClassDemoApp::ProcessEvents() {
 				Setup();
 			}
 			else if (keys[SDL_SCANCODE_ESCAPE]){
-				clear();
-				for (GLuint* tex : textures) { delete tex; }
-				textures.clear();
-				for (Mix_Chunk* tex : sounds) { Mix_FreeChunk(tex); }
-				sounds.clear();
-				SDL_Quit();
+				done = true;
 			}
 			break;
 		case STATE_GAME:
