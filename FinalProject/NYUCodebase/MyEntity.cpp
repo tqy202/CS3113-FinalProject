@@ -48,7 +48,19 @@ void Entity::Render(ShaderProgram *program){
 	if (sprite != nullptr){
 		//float texCoordData[] = {};
 		//glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoordData);
-		//glEnableVertexAttribArray(program->texCoordAttribute);
+		//glEnableVertexAttribArray(program->texCoordAttribute)
+		
+		float u = sprite->u;
+		float v = sprite->v;
+		float spriteWidth = 1.0 / (float)16;
+		float spriteHeight = 1.0 / (float)16;
+
+
+		GLfloat texCoords[] = { u, v + spriteHeight, u + spriteWidth, v, u, v, u + spriteWidth, v, u, v + spriteHeight, u + spriteWidth, v + spriteHeight };
+		glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+		glEnableVertexAttribArray(program->texCoordAttribute);
+		glBindTexture(GL_TEXTURE_2D, *sprite->texture);
+
 	}
 	program->setModelMatrix(modelMatrix);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -56,13 +68,16 @@ void Entity::Render(ShaderProgram *program){
 	if (sprite == nullptr)
 		glDisableVertexAttribArray(program->texCoordAttribute);
 
+
 }
 bool Entity::Update(float elapsed){
 	float changeX = velocity * cos(angle*PI/180.0) * elapsed;
 	float changeY = velocity * sin(angle*PI / 180.0) * elapsed;
 	xpos += changeX;
 	ypos += changeY;
+	//modelMatrix.Rotate(0.2 * 360);
 	modelMatrix.Translate(changeX, changeY, 0);
+	
 	/*if (this->ypos > orthMaxY){
 		this->angle *= -1;
 		this->xpos *= -1;

@@ -47,6 +47,7 @@ private:
 	Matrix modelMatrix;
 	Matrix viewMatrix;
 	ShaderProgram *program;
+	ShaderProgram *programT;
 	SDL_Event event;
 	size_t level;
 	size_t blocksLeft;
@@ -71,6 +72,6 @@ private:
 	void lose();
 	void UpdateGame();
 	float randomX();
-	void DrawText(GLuint& fontTexture, std::string text, float size, float spacing);
+	void DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location);
 
 };

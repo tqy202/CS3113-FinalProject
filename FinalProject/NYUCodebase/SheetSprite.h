@@ -11,14 +11,13 @@
 class SheetSprite {
 public:
 	SheetSprite();
-	SheetSprite(unsigned int textureID, float u, float v, float width, float height, float size);
-	void Draw();
-	float size;
-	unsigned int textureID;
+	SheetSprite(GLuint* textureID, float spriteX, float spriteY, size_t spriteNum);
+	GLuint* texture;
 	float u;
 	float v;
-	float width;
-	float height;
+	float sheetX;
+	float sheetY;
+	size_t spriteNum;
 };
 
 class Texture{

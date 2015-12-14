@@ -26,14 +26,22 @@ ClassDemoApp::ClassDemoApp() {
 #ifdef _WINDOWS
 	glewInit();
 #endif
-	Setup();
+	//Setup();
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
+	programT =  new ShaderProgram(RESOURCE_FOLDER"vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	textures.push_back(LoadTexture("pixel_font.png"));
-	//textures.push_back(LoadTexture("sprites.png"));
+	textures.push_back(LoadTexture("Title.png"));
 	sounds.push_back(Mix_LoadWAV("boom.wav"));
+	sounds.push_back(Mix_LoadWAV("spawn.wav"));
+	sounds.push_back(Mix_LoadWAV("win.wav"));
+	sounds.push_back(Mix_LoadWAV("meow.wav"));
+	sounds.push_back(Mix_LoadWAV("mainGame.wav"));
+	UI.push_back(new Entity(0, 0, 2, 4, new SheetSprite(textures[1], 1, 3, 1)));
 	state = STATE_MENU;
-	lastFrameTicks = 0.0f;
+	lastFrameTicks = (float)SDL_GetTicks() / 1000.0f;
 }
 void ClassDemoApp::Setup() {
 	projectionMatrix.setOrthoProjection(orthMinX, orthMaxX, orthMinY, orthMaxY, -1.0f, 1.0f);
@@ -53,7 +61,7 @@ void ClassDemoApp::Setup() {
 	
 	srand(time(NULL));
 
-	lastFrameTicks = 0.0f;
+	lastFrameTicks = (float)SDL_GetTicks() / 1000.0f;
 }
 
 ClassDemoApp::~ClassDemoApp() {
@@ -62,10 +70,12 @@ ClassDemoApp::~ClassDemoApp() {
 	textures.clear();
 	for (Mix_Chunk* tex : sounds) { Mix_FreeChunk(tex); }
 	sounds.clear();
+	delete(program);
+	delete(programT);
 	SDL_Quit();
 }
 
-void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, float spacing) {
+void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location) {
 	/*float texture_size = 1.0 / 16.0f;
 	std::vector<float> vertexData;
 	std::vector<float> texCoordData;
@@ -107,7 +117,8 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 		float height = 0.15;
 		float width = 0.15;
 		float g = ((float)x + 1) * 2.0 / ((float)text.size() + 1) - 1.0;
-		float u = (float)(((int)index) % 16) / (float)16; float v = (float)(((int)index) / 16) / (float)16;
+		float u = (float)(((int)index) % 16) / (float)16;
+		float v = (float)(((int)index) / 16) / (float)16;
 		float spriteWidth = 1.0 / (float)16;
 		float spriteHeight = 1.0 / (float)16;
 
@@ -117,23 +128,23 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 			width, height,
 			-1 * width, -1 * height,
 			width, -1 * height };
-		glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
-		glEnableVertexAttribArray(program->positionAttribute);
+		glVertexAttribPointer(programT->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+		glEnableVertexAttribArray(programT->positionAttribute);
 
 		GLfloat texCoords[] = { u, v + spriteHeight, u + spriteWidth, v, u, v, u + spriteWidth, v, u, v + spriteHeight, u + spriteWidth, v + spriteHeight };
-		glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
-		glEnableVertexAttribArray(program->texCoordAttribute);
+		glVertexAttribPointer(programT->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+		glEnableVertexAttribArray(programT->texCoordAttribute);
 		glBindTexture(GL_TEXTURE_2D, fontTexture);
 
 		modelMatrix.identity();
-		modelMatrix.Translate(g, .11, 0.0);
-		program->setModelMatrix(modelMatrix);
-		program->setProjectionMatrix(projectionMatrix);
-		program->setViewMatrix(viewMatrix);
+		modelMatrix.Translate(g, location, 0.0);
+		programT->setModelMatrix(modelMatrix);
+		programT->setProjectionMatrix(projectionMatrix);
+		programT->setViewMatrix(viewMatrix);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glDisableVertexAttribArray(program->positionAttribute);
-		glDisableVertexAttribArray(program->texCoordAttribute);
+		glDisableVertexAttribArray(programT->positionAttribute);
+		glDisableVertexAttribArray(programT->texCoordAttribute);
 	}
 }
 
@@ -248,7 +259,12 @@ void ClassDemoApp::ProcessEvents() {
 }
 
 void ClassDemoApp::Update(float elapsed) {
-	if (state == STATE_GAME){
+	switch (state){
+	case STATE_MENU:
+		//Mix_PlayChannel(-1, sounds[3], 0);
+		break;
+	case STATE_GAME:
+		//Mix_PlayChannel(-1, sounds[4], 0);
 		//if (blocksLeft > 0){
 			if (rand() % 100 < std::min((int)(level * 40), 95)){
 				//for (int number = rand() % 4; number <= 0; number--){
@@ -257,6 +273,7 @@ void ClassDemoApp::Update(float elapsed) {
 					bullets.push_back(new Entity(-1 * loc, orthMaxY, 0.05, 0.05, -90, ((float)level) * 0.1, nullptr));
 					blocksLeft--;
 				//}
+					//Mix_PlayChannel(-1, sounds[1], 0);
 			}
 		//}
 		if (blocksLeft <= 0){
@@ -269,6 +286,10 @@ void ClassDemoApp::Update(float elapsed) {
 			}
 			UpdateGame();
 		//}
+			break;
+	case STATE_END:
+		//Mix_PlayChannel(-1, sounds[2], 0);
+		break;
 	}
 	
 }
@@ -300,7 +321,7 @@ void ClassDemoApp::clear(){
 }
 
 void ClassDemoApp::UpdateGame(){
-
+	
 	for (std::list<Entity*>::iterator itr = bullets.begin(); itr != bullets.end();){
 		if (players[PLAYER_1]->collisionDetection(*itr)){
 			delete *itr;
@@ -341,11 +362,16 @@ void ClassDemoApp::UpdateGame(){
 
 void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
-	modelMatrix.Translate(-0.69f, 0.7f, 0.0);
-	DrawText(*(textures[0]), "KittyHell", 0.13f, 0.0f);
-	DrawText(*(textures[0]), "Press enter to start", 0.13f, 0.0f);
-	DrawText(*(textures[0]), "Player 1: WASD controls with spacebar to shoot", 0.13f, 0.0f);
-	DrawText(*(textures[0]), "Player 2: arrow keys with ctrl to shoot", 0.13f, 0.0f);
+	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
+	DrawText(*(textures[0]), "KITTY HELL", 0.13f, 0.0f,0.5);
+	DrawText(*(textures[0]), "Press [Enter] to Start", 0.13f, 0.0f,0);
+	DrawText(*(textures[0]), "Press[ESC] to exit", 0.13f, 0.0f,-0.5);
+
+	for (Entity* ent : UI){
+		ent->Render(programT);
+	}
+	
+
 }
 
 void ClassDemoApp::RenderGame(){
@@ -367,12 +393,12 @@ void ClassDemoApp::RenderGame(){
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawText(*(textures[0]), "Player 1 wins", 0.13f, 0.0f);
+	DrawText(*(textures[0]), "Player 1 wins", 0.13f, 0.0f, .11);
 }
 void ClassDemoApp::lose(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawText(*(textures[0]), "Player 2 wins", 0.13f, 0.0f);
+	DrawText(*(textures[0]), "Player 2 wins", 0.13f, 0.0f, .11);
 }
 
 float ClassDemoApp::randomX(){

@@ -56,4 +56,9 @@
     <None Include="vertex.glsl" />
     <None Include="fragment_textured.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Title.png">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

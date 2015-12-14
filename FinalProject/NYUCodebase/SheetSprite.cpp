@@ -1,24 +1,15 @@
 #include "SheetSprite.h"
 //this is for drawing our arrays
-void SheetSprite::Draw() {
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	GLfloat texCoords[] = {
-		u, v + height,
-		u + width, v,
-		u, v,
-		u + width, v,
-		u, v + height,
-		u + width, v + height
-	};
-	float aspect = width / height;
-	float vertices[] = {
-		-0.5f * size * aspect, -0.5f * size,
-		0.5f * size * aspect, 0.5f * size,
-		-0.5f * size * aspect, 0.5f * size,
-		0.5f * size * aspect, 0.5f * size,
-		-0.5f * size * aspect, -0.5f * size,
-		0.5f * size * aspect, -0.5f * size };
+
+SheetSprite::SheetSprite(GLuint* textureID, float spriteX, float spriteY, size_t spriteNum) :
+texture(textureID), sheetX(spriteX), sheetY(spriteY), spriteNum(spriteNum)
+{
+	float u = (float)(((int)spriteNum) % int(sheetX)) / (float)sheetX;
+	float v = (float)(((int)spriteNum) / int(sheetY)) / (float)sheetY;
+
+
 }
+
 
 Texture::Texture(GLuint &tex) :
 texture(tex)
