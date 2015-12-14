@@ -14,10 +14,12 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include "Matrix.h"
 #include "ShaderProgram.h"
 #include "SheetSprite.h"
 #include "MyEntity.h"
+
 
 #ifndef PLAYERSPEED
 #define PLAYERSPEED .01
@@ -60,6 +62,7 @@ private:
 	std::list<Entity*> UI;
 	std::list<Entity*> bullets;
 	std::vector<GLuint*> textures;
+	std::vector<Mix_Chunk*> sounds;
 
 	void clear();
 	void RenderMenu();
@@ -68,6 +71,6 @@ private:
 	void lose();
 	void UpdateGame();
 	float randomX();
-	void DrawText(int fontTexture, std::string text, float size, float spacing);
+	void DrawText(GLuint& fontTexture, std::string text, float size, float spacing);
 
 };
