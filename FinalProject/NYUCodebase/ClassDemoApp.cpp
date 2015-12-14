@@ -30,7 +30,7 @@ ClassDemoApp::ClassDemoApp() {
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 	program = new ShaderProgram(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
 	textures.push_back(LoadTexture("pixel_font.png"));
-	textures.push_back(LoadTexture("sprites.png"));
+	//textures.push_back(LoadTexture("sprites.png"));
 	sounds.push_back(Mix_LoadWAV("boom.wav"));
 	state = STATE_MENU;
 	lastFrameTicks = 0.0f;
