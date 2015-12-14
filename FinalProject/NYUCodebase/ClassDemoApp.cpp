@@ -33,6 +33,7 @@ ClassDemoApp::ClassDemoApp() {
 	textures.push_back(LoadTexture("sprites.png"));
 	sounds.push_back(Mix_LoadWAV("boom.wav"));
 	state = STATE_MENU;
+	lastFrameTicks = 0.0f;
 }
 void ClassDemoApp::Setup() {
 	projectionMatrix.setOrthoProjection(orthMinX, orthMaxX, orthMinY, orthMaxY, -1.0f, 1.0f);
@@ -65,7 +66,7 @@ ClassDemoApp::~ClassDemoApp() {
 }
 
 void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, float spacing) {
-	float texture_size = 1.0 / 16.0f;
+	/*float texture_size = 1.0 / 16.0f;
 	std::vector<float> vertexData;
 	std::vector<float> texCoordData;
 	for (size_t i = 0; i < text.size(); i++) {
@@ -89,7 +90,7 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 			texture_x + texture_size, texture_y + texture_size,
 			texture_x + texture_size, texture_y,
 			texture_x, texture_y + texture_size,
-		});*/
+			});*//*
 	}
 	glUseProgram(program->programID);
 	glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertexData.data());
@@ -99,7 +100,41 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 	glBindTexture(GL_TEXTURE_2D, fontTexture);
 	glDrawArrays(GL_TRIANGLES, 0, text.size() * 6);
 	glDisableVertexAttribArray(program->positionAttribute);
-	glDisableVertexAttribArray(program->texCoordAttribute);
+	glDisableVertexAttribArray(program->texCoordAttribute);*/
+
+	for (size_t x = 0; x < text.size(); x++){
+		int index = text.at(x);
+		float height = 0.15;
+		float width = 0.15;
+		float g = ((float)x + 1) * 2.0 / ((float)text.size() + 1) - 1.0;
+		float u = (float)(((int)index) % 16) / (float)16; float v = (float)(((int)index) / 16) / (float)16;
+		float spriteWidth = 1.0 / (float)16;
+		float spriteHeight = 1.0 / (float)16;
+
+		float vertices[] = { -1 * width, -1 * height,
+			width, height,
+			-1 * width, height,
+			width, height,
+			-1 * width, -1 * height,
+			width, -1 * height };
+		glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+		glEnableVertexAttribArray(program->positionAttribute);
+
+		GLfloat texCoords[] = { u, v + spriteHeight, u + spriteWidth, v, u, v, u + spriteWidth, v, u, v + spriteHeight, u + spriteWidth, v + spriteHeight };
+		glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+		glEnableVertexAttribArray(program->texCoordAttribute);
+		glBindTexture(GL_TEXTURE_2D, fontTexture);
+
+		modelMatrix.identity();
+		modelMatrix.Translate(g, .11, 0.0);
+		program->setModelMatrix(modelMatrix);
+		program->setProjectionMatrix(projectionMatrix);
+		program->setViewMatrix(viewMatrix);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDisableVertexAttribArray(program->positionAttribute);
+		glDisableVertexAttribArray(program->texCoordAttribute);
+	}
 }
 
 void ClassDemoApp::Render() {
