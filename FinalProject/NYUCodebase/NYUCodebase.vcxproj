@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassDemoApp.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="SheetSprite.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MyEntity.h" />

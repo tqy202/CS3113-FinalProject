@@ -19,17 +19,12 @@
 #include "ShaderProgram.h"
 #include "SheetSprite.h"
 #include "MyEntity.h"
+#include "Constants.h"
 
-
-#ifndef PLAYERSPEED
-#define PLAYERSPEED .01
-#endif
-#ifndef FIXED_TIMESTEP
-#define FIXED_TIMESTEP 0.0166666f
-#endif
 
 enum LocationOfPlayah{ PLAYER_1, PLAYER_2 };
 enum GameState { STATE_MENU, STATE_GAME, STATE_END };
+enum TextFocal {LEFT, CENTER, BOTTOM_LEFT, RIGHT};
 GLuint* LoadTexture(const char *image_path);
 class ClassDemoApp {
 public:
@@ -72,6 +67,9 @@ private:
 	void lose();
 	void UpdateGame();
 	float randomX();
-	void DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location);
+	//void DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location);
+	void DrawTextBox(GLuint& fontTexture, std::string text, float height, float width, float spacing, float xpos, float ypos, TextFocal focal);
+	void DrawTextChar(GLuint& fontTexture, std::string text, float height, float width, float spacing, float xpos, float ypos, TextFocal focal);
+	void DrawChar(GLuint& fontTexture, char index, float height, float width, float xpos, float ypos);
 
 };

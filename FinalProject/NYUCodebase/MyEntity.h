@@ -8,31 +8,11 @@
 #include <SDL_image.h>
 #include "ShaderProgram.h"
 #include "SheetSprite.h"
+#include "Constants.h"
 #include <math.h>
 #include <iostream>
 #include <list>
 #include <iostream>
-
-#ifndef PI
-#define PI 3.14159265
-#endif
-
-#ifndef orthMaxX
-#define orthMaxX 1.33f
-#endif
-
-#ifndef orthMinX
-#define orthMinX -1.33f
-#endif
-
-#ifndef orthMaxY
-#define orthMaxY 1.0f
-#endif
-
-#ifndef orthMinY
-#define orthMinY -1.0f
-#endif
-
 
 class Entity {
 public:

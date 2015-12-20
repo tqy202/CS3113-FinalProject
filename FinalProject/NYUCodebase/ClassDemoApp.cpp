@@ -75,7 +75,7 @@ ClassDemoApp::~ClassDemoApp() {
 	SDL_Quit();
 }
 
-void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location) {
+//void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, float spacing, float location) {
 	/*float texture_size = 1.0 / 16.0f;
 	std::vector<float> vertexData;
 	std::vector<float> texCoordData;
@@ -112,7 +112,7 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 	glDisableVertexAttribArray(program->positionAttribute);
 	glDisableVertexAttribArray(program->texCoordAttribute);*/
 
-	for (size_t x = 0; x < text.size(); x++){
+	/*for (size_t x = 0; x < text.size(); x++){
 		int index = text.at(x);
 		float height = 0.15;
 		float width = 0.15;
@@ -145,7 +145,86 @@ void ClassDemoApp::DrawText(GLuint& fontTexture, std::string text, float size, f
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDisableVertexAttribArray(programT->positionAttribute);
 		glDisableVertexAttribArray(programT->texCoordAttribute);
+	}*/
+void ClassDemoApp::DrawTextBox(GLuint& fontTexture, std::string text, float height, float width, float spacing, float xpos, float ypos, TextFocal focal = CENTER){
+	float charWidth = (width - (spacing * (float)text.size())) / (float)text.size();
+	float currentX;
+	switch (focal){
+	case LEFT:
+		currentX = charWidth / 2.0f + xpos;
+		break;
+	case RIGHT:
+		currentX = xpos - (charWidth * ((float)text.size())) + charWidth / 2.0f;
+		break;
+	case CENTER:
+	default:
+		currentX = xpos - (charWidth * ((float)text.size() / 2.0f)) + charWidth / 2.0f;
 	}
+	for (size_t x = 0; x < text.size(); x++){
+		char index = text.at(x);
+		DrawChar(fontTexture, index, height, charWidth, currentX, ypos);
+		currentX += charWidth + spacing;
+	}
+}
+
+void ClassDemoApp::DrawTextChar(GLuint& fontTexture, std::string text, float height, float width, float spacing, float xpos, float ypos, TextFocal focal = CENTER){
+	float currentX;
+	switch (focal){
+	case LEFT:
+		currentX = width / 2.0f + xpos;
+		break;
+	case RIGHT:
+		currentX = xpos - ((width + spacing) * ((float)text.size())) + width / 2.0f;
+		break;
+	case CENTER:
+	default:
+		currentX = xpos - ((width + spacing) * ((float)text.size() / 2.0f)) + width / 2.0f;
+	}
+	for (size_t x = 0; x < text.size(); x++){
+		char index = text.at(x);
+		DrawChar(fontTexture, index, height, width, currentX, ypos);
+		currentX += width + spacing;
+	}
+}
+
+void ClassDemoApp::DrawChar(GLuint& fontTexture, char index, float height, float width, float xpos, float ypos){
+	float u = (float)(((int)index) % 16) / (float)16;
+	float v = (float)(((int)index) / 16) / (float)16;
+	float spriteWidth = 1.0 / (float)16;
+	float spriteHeight = 1.0 / (float)16;
+	float heightH = height *.5;
+	float widthH = width *.5;
+
+	/*float vertices[] = { xpos - (.5 * width), ypos + (.5 * height),
+		xpos - (.5 * width), ypos - (.5 * height),
+		xpos + (.5 * width), ypos - (.5 * height),
+		xpos + (.5 * width), ypos - (.5 * height),
+		xpos + (.5 * width), ypos + (.5 * height),
+		xpos - (.5 * width), ypos + (.5 * height) };*/
+	float vertices[] = { xpos - (.5 * width), ypos - (.5 * height),
+		xpos + (.5 * width), ypos + (.5 * height),
+		xpos - (.5 * width), ypos + (.5 * height),
+		xpos + (.5 * width), ypos + (.5 * height),
+		xpos - (.5 * width), ypos - (.5 * height),
+		xpos + (.5 * width), ypos - (.5 * height) };
+
+	glVertexAttribPointer(programT->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+	glEnableVertexAttribArray(programT->positionAttribute);
+	
+	GLfloat texCoords[] = { u, v + spriteHeight, u + spriteWidth, v, u, v, u + spriteWidth, v, u, v + spriteHeight, u + spriteWidth, v + spriteHeight };
+	glVertexAttribPointer(programT->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+	glEnableVertexAttribArray(programT->texCoordAttribute);
+	glBindTexture(GL_TEXTURE_2D, fontTexture);
+	
+	/*modelMatrix.identity();
+	modelMatrix.Translate(xpos, ypos, 0.0);
+	programT->setModelMatrix(modelMatrix);*/
+	programT->setProjectionMatrix(projectionMatrix);
+	programT->setViewMatrix(viewMatrix);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisableVertexAttribArray(programT->positionAttribute);
+	glDisableVertexAttribArray(programT->texCoordAttribute);
 }
 
 void ClassDemoApp::Render() {
@@ -363,9 +442,11 @@ void ClassDemoApp::UpdateGame(){
 void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawText(*(textures[0]), "KITTY HELL", 0.13f, 0.0f,0.5);
-	DrawText(*(textures[0]), "Press [Enter] to Start", 0.13f, 0.0f,0);
-	DrawText(*(textures[0]), "Press[ESC] to exit", 0.13f, 0.0f,-0.5);
+	//DrawText(*(textures[0]), "KITTY HELL", 0.13f, 0.0f,0.5);
+	DrawTextChar(*(textures[0]), "KITTY HELL", 0.2, 0.2, -(.125), 0, 0.25);
+	//DrawChar(*(textures[0]), 'b', 0.1, 0.1, .5, 0.5);
+	DrawTextChar(*(textures[0]), "Press [Enter] to Start", 0.1, 0.1, -0.05f, 0, 0);
+	DrawTextChar(*(textures[0]), "Press [ESC] to exit", 0.1, 0.1f, -0.05f, 0.0, -0.1);
 
 	for (Entity* ent : UI){
 		ent->Render(programT);
@@ -393,12 +474,12 @@ void ClassDemoApp::RenderGame(){
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawText(*(textures[0]), "Player 1 wins", 0.13f, 0.0f, .11);
+	//DrawText(*(textures[0]), "Player 1 wins", 0.13f, 0.0f, .11);
 }
 void ClassDemoApp::lose(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawText(*(textures[0]), "Player 2 wins", 0.13f, 0.0f, .11);
+	//DrawText(*(textures[0]), "Player 2 wins", 0.13f, 0.0f, .11);
 }
 
 float ClassDemoApp::randomX(){
