@@ -23,7 +23,7 @@
 
 
 enum LocationOfPlayah{ PLAYER_1, PLAYER_2 };
-enum GameState { STATE_MENU, STATE_GAME, STATE_END };
+enum GameState { STATE_MENU, STATE_GAME, STATE_END, STATE_LEVEL_TRANSITION };
 enum TextFocal {LEFT, CENTER, BOTTOM_LEFT, RIGHT};
 GLuint* LoadTexture(const char *image_path);
 class ClassDemoApp {
@@ -37,6 +37,7 @@ public:
 	void Update(float elapsed);
 private:
 	float lastFrameTicks;
+	float elapsedBuffer;
 	SDL_Window* displayWindow;
 	Matrix projectionMatrix;
 	Matrix modelMatrix;

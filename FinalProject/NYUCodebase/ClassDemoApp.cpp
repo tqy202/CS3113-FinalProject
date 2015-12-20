@@ -58,6 +58,7 @@ void ClassDemoApp::Setup() {
 
 	level = 1;
 	blocksLeft = 50;
+	elapsedBuffer = 0.0f;
 	
 	srand(time(NULL));
 
@@ -237,6 +238,7 @@ void ClassDemoApp::Render() {
 		RenderMenu();
 		break;
 	case STATE_GAME:
+	case STATE_LEVEL_TRANSITION:
 		RenderGame();
 		break;
 	case STATE_END:
@@ -268,6 +270,7 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 			}
 			break;
 		case STATE_GAME:
+		case STATE_LEVEL_TRANSITION:
 			if (keys[SDL_SCANCODE_UP]){
 				players[PLAYER_2]->y(PLAYERSPEED * elasped);
 				if (players[PLAYER_2]->y() + (players[PLAYER_2]->height / 2 + .001) > orthMaxY){
@@ -343,29 +346,35 @@ void ClassDemoApp::Update(float elapsed) {
 		//Mix_PlayChannel(-1, sounds[3], 0);
 		break;
 	case STATE_GAME:
-		//Mix_PlayChannel(-1, sounds[4], 0);
-		//if (blocksLeft > 0){
-			if (rand() % 100 < std::min((int)(level * 40), 95)){
-				//for (int number = rand() % 4; number <= 0; number--){
-					float loc = randomX();
-					bullets.push_back(new Entity(loc, orthMaxY, 0.05, 0.05, -90, ((float)level) * 0.1, nullptr));
-					bullets.push_back(new Entity(-1 * loc, orthMaxY, 0.05, 0.05, -90, ((float)level) * 0.1, nullptr));
-					blocksLeft--;
-				//}
-					//Mix_PlayChannel(-1, sounds[1], 0);
+		if (elapsedBuffer >= FIXED_TIMESTEP * 2.0 / (float)level){
+			float dropRate = FIXED_TIMESTEP * 2.0 / (float)level;
+			for (; elapsedBuffer >= dropRate; elapsedBuffer = elapsedBuffer - dropRate){
+				if (bullets.size() >= MAX_BULLETS)
+					break;
+				float loc = randomX();
+				float speed = ((float)level) * 0.2f * (float)(rand() % 300 + 800) * 0.001f;
+				bullets.push_back(new Entity(loc, orthMaxY, 0.05, 0.05, -90, speed, nullptr));
+				bullets.push_back(new Entity(-1 * loc, orthMaxY, 0.05, 0.05, -90, speed, nullptr));
+				
+				blocksLeft = blocksLeft - 1;
+				if (blocksLeft <= 0){
+					state = STATE_LEVEL_TRANSITION;
+					break;
+				}
 			}
-		//}
-		if (blocksLeft <= 0){
+		}
+	case STATE_LEVEL_TRANSITION:
+		for (Entity* itr : bullets){
+			itr->Update(elapsed);
+		}
+		UpdateGame();
+		if (bullets.size() <= 0 && state == STATE_LEVEL_TRANSITION){
+			state = STATE_GAME;
 			level++;
 			blocksLeft = level * 25 + 50;
+			elapsedBuffer = 0.0f;
 		}
-		//else{
-			for (Entity* itr : bullets){
-				itr->Update(elapsed);
-			}
-			UpdateGame();
-		//}
-			break;
+		break;
 	case STATE_END:
 		//Mix_PlayChannel(-1, sounds[2], 0);
 		break;
@@ -377,6 +386,7 @@ void ClassDemoApp::Update(float elapsed) {
 bool ClassDemoApp::UpdateAndRender() {
 	float ticks = (float)SDL_GetTicks() / 1000.0f;
 	float elapsed = ticks - lastFrameTicks;
+	elapsedBuffer += elapsed;
 	lastFrameTicks = ticks;
 	ProcessEvents(elapsed);
 	while (elapsed >= FIXED_TIMESTEP) {
@@ -443,7 +453,7 @@ void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
 	//DrawText(*(textures[0]), "KITTY HELL", 0.13f, 0.0f,0.5);
-	DrawTextChar(*(textures[0]), "KITTY HELL", 0.2, 0.2, -(.125), 0, 0.25);
+	DrawTextChar(*(textures[0]), "RANDOM HELL", 0.2, 0.2, -(.125), 0, 0.25);
 	//DrawChar(*(textures[0]), 'b', 0.1, 0.1, .5, 0.5);
 	DrawTextChar(*(textures[0]), "Press [Enter] to Start", 0.1, 0.1, -0.05f, 0, 0);
 	DrawTextChar(*(textures[0]), "Press [ESC] to exit", 0.1, 0.1f, -0.05f, 0.0, -0.1);
@@ -468,6 +478,8 @@ void ClassDemoApp::RenderGame(){
 		for (Entity* ent : UI){
 			ent->Render(program);
 		}
+		DrawTextChar(*(textures[0]), "LEVEL: " + std::to_string(level), 0.1, 0.1, -0.05, orthMinX, orthMaxY - 0.05, LEFT);
+		DrawTextChar(*(textures[0]), "Blocks Left: " + std::to_string(blocksLeft), 0.1, 0.1, -0.05, orthMinX, orthMaxY - 0.1, LEFT);
 	//}
 }
 
@@ -484,6 +496,6 @@ void ClassDemoApp::lose(){
 
 float ClassDemoApp::randomX(){
 	float percent = (float) (rand() % 10000) ;
-	return percent / 100.00 * orthMaxX;
+	return percent * 0.0001f * orthMaxX;
 }
 

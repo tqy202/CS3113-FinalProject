@@ -5,7 +5,7 @@
 #endif
 
 #ifndef PLAYERSPEED
-#define PLAYERSPEED .4
+#define PLAYERSPEED 4.0
 #endif
 #ifndef FIXED_TIMESTEP
 #define FIXED_TIMESTEP 0.0166666f
@@ -25,4 +25,8 @@
 
 #ifndef orthMinY
 #define orthMinY -1.0f
+#endif
+
+#ifndef MAX_BULLETS
+#define MAX_BULLETS 50
 #endif
