@@ -5,7 +5,7 @@
 #endif
 
 #ifndef PLAYERSPEED
-#define PLAYERSPEED .01
+#define PLAYERSPEED .4
 #endif
 #ifndef FIXED_TIMESTEP
 #define FIXED_TIMESTEP 0.0166666f

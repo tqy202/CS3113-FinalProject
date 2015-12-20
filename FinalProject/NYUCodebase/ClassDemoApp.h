@@ -31,7 +31,7 @@ public:
 	ClassDemoApp();
 	~ClassDemoApp();
 	void Setup();
-	void ProcessEvents();
+	void ProcessEvents(float elapsed);
 	bool UpdateAndRender();
 	void Render();
 	void Update(float elapsed);

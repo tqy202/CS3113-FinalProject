@@ -77,7 +77,7 @@ bool Entity::Update(float elapsed){
 	ypos += changeY;
 	//modelMatrix.Rotate(0.2 * 360);
 	modelMatrix.Translate(changeX, changeY, 0);
-	modelMatrix.Rotate(0.1);
+	//modelMatrix.Rotate(0.1);
 	
 	/*if (this->ypos > orthMaxY){
 		this->angle *= -1;

@@ -249,7 +249,7 @@ void ClassDemoApp::Render() {
 	SDL_GL_SwapWindow(displayWindow);
 }
 
-void ClassDemoApp::ProcessEvents() {
+void ClassDemoApp::ProcessEvents(float elasped) {
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
 			done = true;
@@ -269,7 +269,7 @@ void ClassDemoApp::ProcessEvents() {
 			break;
 		case STATE_GAME:
 			if (keys[SDL_SCANCODE_UP]){
-				players[PLAYER_2]->y(PLAYERSPEED);
+				players[PLAYER_2]->y(PLAYERSPEED * elasped);
 				if (players[PLAYER_2]->y() + (players[PLAYER_2]->height / 2 + .001) > orthMaxY){
 					players[PLAYER_2]->y(orthMaxY - (players[PLAYER_2]->height / 2 + 0.001), true);
 				}
@@ -277,21 +277,21 @@ void ClassDemoApp::ProcessEvents() {
 			}
 
 			else if (keys[SDL_SCANCODE_DOWN]){
-				players[PLAYER_2]->y(-1 * PLAYERSPEED);
+				players[PLAYER_2]->y(-1 * PLAYERSPEED * elasped);
 				if (players[PLAYER_2]->y() - (players[PLAYER_2]->height / 2 + .001) < orthMinY){
 					players[PLAYER_2]->y(orthMinY + (players[PLAYER_2]->height / 2 + 0.001), true);
 				}
 			}
 
 			if (keys[SDL_SCANCODE_LEFT]){
-				players[PLAYER_2]->x(-1 * PLAYERSPEED);
+				players[PLAYER_2]->x(-1 * PLAYERSPEED * elasped);
 				if (players[PLAYER_2]->x() - (players[PLAYER_2]->width / 2 - .001) < 0){
 					players[PLAYER_2]->x(orthMaxX - (players[PLAYER_2]->width / 2 + 0.001), true);
 				}
 			}
 
 			else if (keys[SDL_SCANCODE_RIGHT]){
-				players[PLAYER_2]->x(PLAYERSPEED);
+				players[PLAYER_2]->x(PLAYERSPEED * elasped);
 				if (players[PLAYER_2]->x() + (players[PLAYER_2]->width / 2 + .001) > orthMaxX){
 					players[PLAYER_2]->x(0 + (players[PLAYER_2]->width / 2 + 0.001), true);
 				}
@@ -301,28 +301,28 @@ void ClassDemoApp::ProcessEvents() {
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			if (keys[SDL_SCANCODE_W]){
-				players[PLAYER_1]->y(PLAYERSPEED);
+				players[PLAYER_1]->y(PLAYERSPEED * elasped);
 				if (players[PLAYER_1]->y() + (players[PLAYER_1]->height / 2 + .001) > orthMaxY){
 					players[PLAYER_1]->y(orthMaxY - (players[PLAYER_1]->height / 2 + 0.001), true);
 				}
 			}
 
 			else if (keys[SDL_SCANCODE_S]){
-				players[PLAYER_1]->y(-1 * PLAYERSPEED);
+				players[PLAYER_1]->y(-1 * PLAYERSPEED * elasped);
 				if (players[PLAYER_1]->y() - (players[PLAYER_1]->height / 2 + .001) < orthMinY){
 					players[PLAYER_1]->y(orthMinY + (players[PLAYER_1]->height / 2 + 0.001), true);
 				}
 			}
 
 			if (keys[SDL_SCANCODE_A]){
-				players[PLAYER_1]->x(-1 * PLAYERSPEED);
+				players[PLAYER_1]->x(-1 * PLAYERSPEED * elasped);
 				if (players[PLAYER_1]->x() - (players[PLAYER_1]->width / 2 + .001) < orthMinX){
 					players[PLAYER_1]->x(0 - (players[PLAYER_1]->width / 2 + 0.001), true);
 				}
 			}
 
 			else if (keys[SDL_SCANCODE_D]){
-				players[PLAYER_1]->x(PLAYERSPEED);
+				players[PLAYER_1]->x(PLAYERSPEED * elasped);
 				if (players[PLAYER_1]->x() + (players[PLAYER_1]->width / 2 + .001) > 0){
 					players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
 				}
@@ -378,7 +378,7 @@ bool ClassDemoApp::UpdateAndRender() {
 	float ticks = (float)SDL_GetTicks() / 1000.0f;
 	float elapsed = ticks - lastFrameTicks;
 	lastFrameTicks = ticks;
-	ProcessEvents();
+	ProcessEvents(elapsed);
 	while (elapsed >= FIXED_TIMESTEP) {
 		elapsed -= FIXED_TIMESTEP;
 		Update(FIXED_TIMESTEP);
@@ -474,12 +474,12 @@ void ClassDemoApp::RenderGame(){
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	//DrawText(*(textures[0]), "Player 1 wins", 0.13f, 0.0f, .11);
+	DrawTextChar(*(textures[0]), "Player 1 wins", 0.2,0.2, -0.125f, 0.0f, 0.0f);
 }
 void ClassDemoApp::lose(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	//DrawText(*(textures[0]), "Player 2 wins", 0.13f, 0.0f, .11);
+	DrawTextChar(*(textures[0]), "Player 2 wins", 0.2, 0.2, -0.125f, 0.0f, 0.0f);
 }
 
 float ClassDemoApp::randomX(){
