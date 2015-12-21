@@ -52,8 +52,8 @@ void ClassDemoApp::Setup() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	players.push_back(new Entity(-0.25, -0.9 ,0.1,.05,nullptr));
-	players.push_back(new Entity(0.25, -0.9, 0.1, .05, nullptr));
+	players.push_back(new Entity(-0.25, -0.9 ,0.1, NORMAL_PLAYER_HEIGHT,nullptr));
+	players.push_back(new Entity(0.25, -0.9, 0.1, NORMAL_PLAYER_HEIGHT, nullptr));
 	UI.push_back(new Entity(0,0,0.01,2*orthMaxY, nullptr));
 
 	level = 1;
@@ -288,6 +288,7 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 
 			if (keys[SDL_SCANCODE_LEFT]){
 				players[PLAYER_2]->x(-1 * PLAYERSPEED * elasped);
+				players[PLAYER_2]->height = NORMAL_PLAYER_HEIGHT - .01;
 				if (players[PLAYER_2]->x() - (players[PLAYER_2]->width / 2 - .001) < 0){
 					players[PLAYER_2]->x(orthMaxX - (players[PLAYER_2]->width / 2 + 0.001), true);
 				}
@@ -295,9 +296,13 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 
 			else if (keys[SDL_SCANCODE_RIGHT]){
 				players[PLAYER_2]->x(PLAYERSPEED * elasped);
+				players[PLAYER_2]->height = NORMAL_PLAYER_HEIGHT - .01;
 				if (players[PLAYER_2]->x() + (players[PLAYER_2]->width / 2 + .001) > orthMaxX){
 					players[PLAYER_2]->x(0 + (players[PLAYER_2]->width / 2 + 0.001), true);
 				}
+			}
+			else{
+				players[PLAYER_2]->height = NORMAL_PLAYER_HEIGHT;
 			}
 
 
@@ -319,6 +324,7 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 
 			if (keys[SDL_SCANCODE_A]){
 				players[PLAYER_1]->x(-1 * PLAYERSPEED * elasped);
+				players[PLAYER_1]->height = NORMAL_PLAYER_HEIGHT - .01;
 				if (players[PLAYER_1]->x() - (players[PLAYER_1]->width / 2 + .001) < orthMinX){
 					players[PLAYER_1]->x(0 - (players[PLAYER_1]->width / 2 + 0.001), true);
 				}
@@ -326,9 +332,13 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 
 			else if (keys[SDL_SCANCODE_D]){
 				players[PLAYER_1]->x(PLAYERSPEED * elasped);
+				players[PLAYER_1]->height = NORMAL_PLAYER_HEIGHT - .01;
 				if (players[PLAYER_1]->x() + (players[PLAYER_1]->width / 2 + .001) > 0){
 					players[PLAYER_1]->x(orthMinX + (players[PLAYER_1]->width / 2 + 0.001), true);
 				}
+			}
+			else{
+				players[PLAYER_2]->height = NORMAL_PLAYER_HEIGHT;
 			}
 			break;
 		case STATE_END:
@@ -346,8 +356,8 @@ void ClassDemoApp::Update(float elapsed) {
 		//Mix_PlayChannel(-1, sounds[3], 0);
 		break;
 	case STATE_GAME:
-		if (elapsedBuffer >= FIXED_TIMESTEP * 2.0 / (float)level){
-			float dropRate = FIXED_TIMESTEP * 2.0 / (float)level;
+		if (elapsedBuffer >= FIXED_TIMESTEP * 60.0 / (float)level){
+			float dropRate = FIXED_TIMESTEP * 60.0 / (float)level;
 			for (; elapsedBuffer >= dropRate; elapsedBuffer = elapsedBuffer - dropRate){
 				if (bullets.size() >= MAX_BULLETS)
 					break;
@@ -386,13 +396,14 @@ void ClassDemoApp::Update(float elapsed) {
 bool ClassDemoApp::UpdateAndRender() {
 	float ticks = (float)SDL_GetTicks() / 1000.0f;
 	float elapsed = ticks - lastFrameTicks;
-	elapsedBuffer += elapsed;
 	lastFrameTicks = ticks;
 	ProcessEvents(elapsed);
 	while (elapsed >= FIXED_TIMESTEP) {
+		elapsedBuffer += FIXED_TIMESTEP;
 		elapsed -= FIXED_TIMESTEP;
 		Update(FIXED_TIMESTEP);
 	}
+	elapsedBuffer += elapsed;
 	Update(elapsed);
 	Render();
 	return done;
@@ -453,7 +464,7 @@ void ClassDemoApp::RenderMenu(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
 	//DrawText(*(textures[0]), "KITTY HELL", 0.13f, 0.0f,0.5);
-	DrawTextChar(*(textures[0]), "RANDOM HELL", 0.2, 0.2, -(.125), 0, 0.25);
+	DrawTextChar(*(textures[0]), "RANDOM HELL", 0.2, 0.2, -.1, 0, 0.25);
 	//DrawChar(*(textures[0]), 'b', 0.1, 0.1, .5, 0.5);
 	DrawTextChar(*(textures[0]), "Press [Enter] to Start", 0.1, 0.1, -0.05f, 0, 0);
 	DrawTextChar(*(textures[0]), "Press [ESC] to exit", 0.1, 0.1f, -0.05f, 0.0, -0.1);
@@ -479,7 +490,7 @@ void ClassDemoApp::RenderGame(){
 			ent->Render(program);
 		}
 		DrawTextChar(*(textures[0]), "LEVEL: " + std::to_string(level), 0.1, 0.1, -0.05, orthMinX, orthMaxY - 0.05, LEFT);
-		DrawTextChar(*(textures[0]), "Blocks Left: " + std::to_string(blocksLeft), 0.1, 0.1, -0.05, orthMinX, orthMaxY - 0.1, LEFT);
+		DrawTextChar(*(textures[0]), "Blocks Left: " + std::to_string(blocksLeft), 0.1, 0.1, -0.05, 0, orthMaxY - 0.05, LEFT);
 	//}
 }
 

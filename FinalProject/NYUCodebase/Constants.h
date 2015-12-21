@@ -30,3 +30,7 @@
 #ifndef MAX_BULLETS
 #define MAX_BULLETS 50
 #endif
+
+#ifndef NORMAL_PLAYER_HEIGHT
+#define NORMAL_PLAYER_HEIGHT 0.05f
+#endif
