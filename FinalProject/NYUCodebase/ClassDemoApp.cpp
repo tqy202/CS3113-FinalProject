@@ -37,11 +37,13 @@ ClassDemoApp::ClassDemoApp() {
 	sounds.push_back(Mix_LoadWAV("boom.wav"));
 	sounds.push_back(Mix_LoadWAV("spawn.wav"));
 	sounds.push_back(Mix_LoadWAV("win.wav"));
-	sounds.push_back(Mix_LoadWAV("meow.wav"));
 	sounds.push_back(Mix_LoadWAV("mainGame.wav"));
+	sounds.push_back(Mix_LoadWAV("meow.wav"));
+	musics.push_back(Mix_LoadMUS("8bitmusicloop.mp3"));
 	UI.push_back(new Entity(0, 0, 2, 4, new SheetSprite(textures[1], 1, 3, 1)));
 	state = STATE_MENU;
 	lastFrameTicks = (float)SDL_GetTicks() / 1000.0f;
+	Mix_PlayMusic(musics[0], -1);
 }
 void ClassDemoApp::Setup() {
 	projectionMatrix.setOrthoProjection(orthMinX, orthMaxX, orthMinY, orthMaxY, -1.0f, 1.0f);
@@ -63,6 +65,7 @@ void ClassDemoApp::Setup() {
 	srand(time(NULL));
 
 	lastFrameTicks = (float)SDL_GetTicks() / 1000.0f;
+	
 }
 
 ClassDemoApp::~ClassDemoApp() {
@@ -245,6 +248,7 @@ void ClassDemoApp::Render() {
 		//changes
 		if (player1Wins){ win(); }
 		else{ lose(); }
+		DrawTextChar(*(textures[0]), "Press [Enter] to return to menu", 0.1, 0.1, -0.05f, 0, -.1);
 		// changes
 		break;
 	}
@@ -261,6 +265,7 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 		switch (state) {
 		case STATE_MENU:
 			if (keys[SDL_SCANCODE_RETURN]){
+				//Mix_PlayChannel(-1, sounds[sounds.size() - 1], -1);
 				state = STATE_GAME;
 				clear();
 				Setup();
@@ -338,7 +343,7 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 				}
 			}
 			else{
-				players[PLAYER_2]->height = NORMAL_PLAYER_HEIGHT;
+				players[PLAYER_1]->height = NORMAL_PLAYER_HEIGHT;
 			}
 			break;
 		case STATE_END:
@@ -353,7 +358,6 @@ void ClassDemoApp::ProcessEvents(float elasped) {
 void ClassDemoApp::Update(float elapsed) {
 	switch (state){
 	case STATE_MENU:
-		//Mix_PlayChannel(-1, sounds[3], 0);
 		break;
 	case STATE_GAME:
 		if (elapsedBuffer >= FIXED_TIMESTEP * 60.0 / (float)level){
@@ -386,7 +390,7 @@ void ClassDemoApp::Update(float elapsed) {
 		}
 		break;
 	case STATE_END:
-		//Mix_PlayChannel(-1, sounds[2], 0);
+
 		break;
 	}
 	
@@ -497,12 +501,12 @@ void ClassDemoApp::RenderGame(){
 void ClassDemoApp::win(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawTextChar(*(textures[0]), "Player 1 wins", 0.2,0.2, -0.125f, 0.0f, 0.0f);
+	DrawTextChar(*(textures[0]), "Player 1 wins", 0.2,0.2, -0.125f, 0.0f, 0.05f);
 }
 void ClassDemoApp::lose(){
 	modelMatrix.identity();
 	modelMatrix.Translate(-0.6f, 0.4f, 0.0);
-	DrawTextChar(*(textures[0]), "Player 2 wins", 0.2, 0.2, -0.125f, 0.0f, 0.0f);
+	DrawTextChar(*(textures[0]), "Player 2 wins", 0.2, 0.2, -0.125f, 0.0f, 0.05f);
 }
 
 float ClassDemoApp::randomX(){

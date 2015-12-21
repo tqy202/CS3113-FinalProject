@@ -1,54 +1,49 @@
-﻿Build started 12/20/2015 8:01:28 PM.
+﻿Build started 12/21/2015 10:16:18 AM.
      1>Project "C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\NYUCodebase\NYUCodebase.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDL2\include /IC:\SDL2_image\include /IC:\glew\include /IC:\SDL2_mixer\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _WINDOWS /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ClassDemoApp.cpp MyEntity.cpp main.cpp
-         ClassDemoApp.cpp
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(55): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(56): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(57): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(63): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(196): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(197): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(210): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(275): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(277): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(283): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(285): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(290): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(291): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(293): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(299): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(301): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(312): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(319): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(321): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(326): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(328): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(333): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(335): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(355): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(361): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(362): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(426): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(439): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(462): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(464): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(465): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(487): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(488): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(495): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(500): warning C4305: 'argument' : truncation from 'double' to 'float'
-         Generating Code...
-         Compiling...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDL2\include /IC:\SDL2_image\include /IC:\glew\include /IC:\SDL2_mixer\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _WINDOWS /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ClassDemoApp.cpp main.cpp
          main.cpp
-         MyEntity.cpp
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\myentity.cpp(43): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\myentity.cpp(74): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\myentity.cpp(75): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\myentity.cpp(124): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\myentity.cpp(124): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         ClassDemoApp.cpp
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(57): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(58): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(59): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(65): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(199): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(200): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(213): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(251): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(280): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(282): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(288): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(290): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(295): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(296): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(303): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(304): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(306): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(317): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(319): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(324): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(326): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(331): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(332): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(339): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(340): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(342): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(364): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(370): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(371): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(435): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(448): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(471): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(473): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(474): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(496): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(497): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\nutcase\documents\github\cs3113-finalproject\finalproject\nyucodebase\classdemoapp.cpp(509): warning C4305: 'argument' : truncation from 'double' to 'float'
          Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\Debug\NYUCodebase.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\SDL2_mixer\lib\x86 /LIBPATH:C:\SDL2\lib\x86 /LIBPATH:C:\SDL2_image\lib\x86 /LIBPATH:C:\glew\lib\Release\Win32 SDL2.lib SDL2_mixer.lib glew32.lib SDL2main.lib SDL2_image.lib OpenGL32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\Debug\NYUCodebase.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\Debug\NYUCodebase.lib" /MACHINE:X86 Debug\SheetSprite.obj
@@ -57,9 +52,10 @@
          Debug\Matrix.obj
          Debug\MyEntity.obj
          Debug\ShaderProgram.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
          NYUCodebase.vcxproj -> C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\Debug\NYUCodebase.exe
      1>Done Building Project "C:\Users\NutCase\Documents\GitHub\CS3113-FinalProject\FinalProject\NYUCodebase\NYUCodebase.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:18.87
+Time Elapsed 00:00:18.28

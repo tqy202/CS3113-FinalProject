@@ -60,6 +60,7 @@ private:
 	std::list<Entity*> bullets;
 	std::vector<GLuint*> textures;
 	std::vector<Mix_Chunk*> sounds;
+	std::vector<Mix_Music*> musics;
 
 	void clear();
 	void RenderMenu();
