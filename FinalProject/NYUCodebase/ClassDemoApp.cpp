@@ -74,6 +74,8 @@ ClassDemoApp::~ClassDemoApp() {
 	textures.clear();
 	for (Mix_Chunk* tex : sounds) { Mix_FreeChunk(tex); }
 	sounds.clear();
+	for (Mix_Music* tex : musics) { Mix_FreeMusic(tex); }
+	musics.clear();
 	delete(program);
 	delete(programT);
 	SDL_Quit();
